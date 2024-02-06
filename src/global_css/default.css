@@ -1,0 +1,222 @@
+html {
+    font-family: sans-serif, 'HelveticaNeue';
+    /* 預設字型 */
+    font-size: 14px;
+    /* 調整字型大小 */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    height: 100vh;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #1D1D26;
+}
+
+.container-fluid {
+    overflow-x: hidden;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+*,
+a {
+    text-decoration: none;
+    /* 去除預設下劃線 */
+}
+
+a {
+    cursor: pointer;
+    color: #fff;
+}
+
+a:focus {
+    outline: thin dotted;
+    /* 處理“outline”在Chrome瀏覽器中和其它瀏覽器之間的不一致 */
+}
+
+a:active, a:hover {
+    color: #fff;
+    outline: 0;
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+a:active {
+    color: #fff;
+}
+
+h1 {
+    /* 使h1標籤在section標籤和article標籤的留白和字型樣式統一。 */
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+abbr[title] {
+    border-bottom: 1px dotted;
+    /* 解決首字母樣式在IE8/9、Safari 5和chrome瀏覽器中未定義的問題 */
+}
+
+b, strong {
+    font-weight: bold;
+    /* 新增加粗樣式*/
+}
+
+dfn {
+    font-size: italic;
+    /* 新增斜體樣式 */
+}
+
+hr {
+    /* 解決其在Firefox中的相容性問題 */
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+mark {
+    /* 解決樣式未定義的問題 */
+    background: #ff0;
+    color: #000;
+}
+
+code, kbd, pre, samp {
+    /* 更正關聯字型的老式設定 */
+    font-family: monospace, serif;
+    font-size: 1em;
+}
+
+pre {
+    /* 提高pre標籤格式化文字的可讀性 */
+    white-space: pre-wrap;
+}
+
+
+q {
+    /* 設定相一致的引號型別 */
+    quotes: "\201C""\201D""\2018""\2019";
+}
+
+small {
+    /* 統一所有字型大小 */
+    font-size: 80%;
+}
+
+sub, sup {
+    /* 防止“sub”和“sup”標籤影響“line-height”屬性 */
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+img {
+    border: 0;
+    /*當img標籤中包含a標籤時，去除img邊框屬性。 */
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+fieldset {
+    /* 定義一致的邊框、內邊距和外邊距 */
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+    border: 0;
+    padding: 0;
+    /* 去除外邊距*/
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    /* 更改關聯字型屬性 */
+    font-size: 100%;
+    /* 更改字型大小屬性 */
+    margin: 0;
+    /* 調整邊距設定 */
+}
+
+button, input {
+    line-height: normal;
+}
+
+input, textarea {
+
+    font-size: initial;
+
+}
+
+button, select {
+    text-transform: none;
+    /**
+  * 調整“button”和“select”的“text-transform”繼承不一致性的問題
+  *其他表單控制元件元素不繼承“text-transform”屬性
+  */
+}
+
+.padding-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fullHeight {
+    position: relative;
+    height: 100%;
+}
+
+.hasTop50 {
+    margin-top: 50px;
+}
+
+.hasTop66 {
+    margin-top: 66px;
+}
+
+.hasTop100 {
+    margin-top: 100px;
+}
+
+.left147:after {
+    left: 147px;
+}
+
+.withoutPadding {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hidden {
+    overflow: hidden;
+}
+
+.flexBox {
+    display: flex;
+    flex-direction: row;
+}
+
+.absolute {
+    position: absolute;
+}

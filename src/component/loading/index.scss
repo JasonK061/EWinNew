@@ -1,0 +1,98 @@
+    // loading動畫相關
+    .game-lobby-wrap {
+        .loading {
+            margin: 25rem auto 0;
+        }
+    }
+
+    .loading {
+        position: relative;
+        box-sizing: border-box;
+        display: block;
+        font-size: 0;
+        color: #d2b82e;
+        width: 32px;
+        height: 32px;
+
+
+        div {
+            position: relative;
+            box-sizing: border-box;
+            display: inline-block;
+            float: none;
+            background-color: currentColor;
+            border: 0 solid currentColor;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            margin-top: -4px;
+            margin-left: -4px;
+            border-radius: 100%;
+            animation: ball-spin-fade 2s infinite linear;
+
+            &:nth-child(1) {
+                top: 5%;
+                left: 50%;
+                animation-delay: -1.125s;
+            }
+
+            &:nth-child(2) {
+                top: 18.1801948466%;
+                left: 81.8198051534%;
+                animation-delay: -1.25s;
+            }
+
+            &:nth-child(3) {
+                top: 50%;
+                left: 95%;
+                animation-delay: -1.375s;
+            }
+
+            &:nth-child(4) {
+                top: 81.8198051534%;
+                left: 81.8198051534%;
+                animation-delay: -1.5s;
+            }
+
+            &:nth-child(5) {
+                top: 94.9999999966%;
+                left: 50.0000000005%;
+                animation-delay: -1.625s;
+            }
+
+            &:nth-child(6) {
+                top: 81.8198046966%;
+                left: 18.1801949248%;
+                animation-delay: -1.75s;
+            }
+
+            &:nth-child(7) {
+                top: 49.9999750815%;
+                left: 5.0000051215%;
+                animation-delay: -1.875s;
+            }
+
+            &:nth-child(8) {
+                top: 18.179464974%;
+                left: 18.1803700518%;
+                animation-delay: -2s;
+            }
+        }
+    }
+
+
+    @keyframes ball-spin-fade {
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.25;
+            transform: scale(0.5);
+        }
+    }

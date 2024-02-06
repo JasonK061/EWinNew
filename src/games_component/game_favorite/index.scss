@@ -1,0 +1,19 @@
+.game-favorite-box {
+    margin-left: 1.3rem;
+
+    span {
+        display: block;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+
+        &.add-to-favorites {
+            background: url('../../img/global/favorite.png') no-repeat center center/contain;
+        }
+
+        &.remove-to-favorites {
+            background: url('../../img/global/favorited.png') no-repeat center center/contain;
+        }
+
+    }
+}

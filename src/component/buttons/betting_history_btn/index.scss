@@ -1,0 +1,123 @@
+.betting-history-box {
+    .betting-history {
+        position: relative;
+        width: 33px;
+        height: 33px;
+        cursor: pointer;
+        margin-left: 15px;
+        background: url('../../../img/header/bettinghistory.png') no-repeat center center/contain;
+
+        .hover-box {
+            position: fixed;
+            right: -30rem;
+            background: rgba(29, 29, 38, 0.8);
+            // padding: 20px 35px;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            top: 6rem;
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+            animation-name: anibettingout;
+            animation-duration: 1s;
+            animation-timing-function: ease;
+            transition: all 1s ease;
+            min-width: 350px;
+            z-index: 8;
+            visibility: hidden;
+
+
+            .flex-box {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            &.visible {
+                right: 0rem;
+                animation-name: anibettingin;
+                animation-duration: 1s;
+                animation-timing-function: ease;
+                visibility: visible;
+                cursor: auto;
+
+            }
+
+            @keyframes anisettingout {
+                0% {
+                    right: 0rem;
+                }
+
+                100% {
+                    right: -30rem;
+                }
+            }
+
+
+            @keyframes anisettingin {
+                0% {
+                    right: -30rem;
+                }
+
+                100% {
+                    right: 0rem;
+                }
+            }
+
+            .title {
+                width: 80%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                padding: 20px 0 7px 0;
+                margin: 0 auto;
+            }
+
+            .dis {
+                font-size: 0.7rem;
+                margin-top: 10px;
+                margin: 0 auto;
+
+                table {
+                    border-spacing: 1px;
+                    width: 100%;
+
+                    thead {
+                        background: rgba(217, 217, 217, 0.05);
+
+                        tr {
+                            th {
+                                font-size: 14px;
+                                padding: 8px 0px;
+                            }
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                                padding: 8px 3px;
+                                text-align: center;
+                                font-size: 12px;
+
+                                &.detail {
+                                    button {
+                                        background: #46465B;
+                                        border: none;
+                                        font-size: 0.7rem;
+                                        color: #fff;
+                                        border-radius: 30px;
+                                        padding: 2px 12px 5px;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+
+                            &:nth-child(even) {
+                                background: rgba(217, 217, 217, 0.05);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

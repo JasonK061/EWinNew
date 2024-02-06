@@ -1,0 +1,19 @@
+.titlebar {
+    padding: 22px 10px 0 15px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+
+    &:after {
+        content: '';
+        display: inline-block;
+        width: 13px;
+        height: 13px;
+        background: url('../../img/global/Vector.png') no-repeat center center/contain;
+        position: absolute;
+        bottom: 6px;
+        right: -10px;
+    }
+}

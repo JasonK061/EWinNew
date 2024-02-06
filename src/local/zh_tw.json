@@ -1,0 +1,39 @@
+{
+    "Global": {
+        "b_pair": "庄對",
+        "balance": "餘額",
+        "banker": "庄",
+        "bet_history": "投注紀錄",
+        "choose_bet_limit": "選擇限紅",
+        "currency": "幣別",
+        "date": "日期",
+        "details": "詳細內容",
+        "exit_fs": "半屏",
+        "favorites": "收藏",
+        "fs": "全屏",
+        "good_trend_notice": "好路通知",
+        "login": "登入",
+        "menu": "選單",
+        "p_pair": "閒對",
+        "player": "閒",
+        "progress": "遊戲進行中",
+        "rolling": "轉碼數",
+        "setting": "設定",
+        "similar_ganes": "相似遊戲",
+        "start_games": "開始遊戲",
+        "tie": "和",
+        "type": "類型",
+        "win_lose": "上下數"
+    },
+    "Setting": {
+        "title": "遊戲大廳個性化",
+        "dis": "如果您想查看遊戲大廳的個人化遊戲桌列表，請保持該選項處於啟用狀態。 否則，請將其停用，我們將停止為此目的處理個人資料。",
+        "is_true": "設置"
+    },
+    "VideoLine": {
+        "title": "選擇視頻線路"
+    },
+    "HowToPlay": {
+        "title": "玩法說明"
+    }
+}

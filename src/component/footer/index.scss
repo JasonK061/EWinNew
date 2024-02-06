@@ -1,0 +1,74 @@
+.footer-box {
+    display: none;
+    background-color: #1d1d26;
+    box-shadow: -1px 0 13px rgba(0, 0, 0, 0.5);
+
+    &.aniFooter,
+    &.aniFooterAction {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        transition: all 1s ease;
+        padding: 5px 10px;
+    }
+
+    &.aniFooter {
+        bottom: -300px;
+        animation-name: anifooterout;
+        animation-duration: 1s;
+        animation-timing-function: ease;
+    }
+
+    &.aniFooterAction {
+        bottom: 0px;
+        animation-name: anifooterin;
+        animation-duration: 1s;
+        animation-timing-function: ease;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .footer-box {
+        display: block;
+
+        .user-wallet {
+            color: #DBC165;
+            position: relative;
+            padding-left: 25px;
+
+            &::before {
+                content: '';
+                display: block;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                left: -1px;
+                top: 0px;
+                background: url('../../img/header/wallet.png') no-repeat center center/contain;
+            }
+        }
+    }
+
+    @keyframes anifooterin {
+        0% {
+            bottom: -300px;
+        }
+
+        100% {
+            bottom: 0;
+        }
+    }
+
+
+    @keyframes anifooterout {
+        0% {
+            bottom: 0;
+        }
+
+        100% {
+            bottom: -300px;
+        }
+    }
+}
