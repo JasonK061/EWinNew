@@ -32,3 +32,9 @@ firebase.json
 
 # package-lock
 package-lock.json
+
+# README.md
+README.md
+
+# gitignore
+.gitignore
