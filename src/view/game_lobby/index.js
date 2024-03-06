@@ -13,7 +13,10 @@ function Gamelobby(props) {
 
     const tiList = props.tiList;
     const userInfo = props.userInfo;
-    const isLoading = props.isLoading;
+
+    // hardcode demo用
+    // const isLoading = props.isLoading;
+    const isLoading = false;
 
 
     return (
@@ -35,10 +38,14 @@ function Gamelobby(props) {
                                                     defaultActiveKey="yourgames"
                                                 >
                                                     <CustomTab eventKey="yourgames" title="屬於您">
-                                                        <Section tiList={tiList} userInfo={userInfo} />
+                                                        {/* <Section tiList={tiList} userInfo={userInfo} />
+                                                         */}
+                                                        {/* hardcode demo用 */}
+                                                        <Section listItems={listItems1} />
                                                     </CustomTab>
                                                     <CustomTab eventKey="baccarat" title="百家樂">
-                                                        {/* <Section listItems={listItems2} /> */}
+                                                        {/* hardcode demo用 */}
+                                                        <Section listItems={listItems2} />
                                                     </CustomTab>
                                                 </CustomTabs>
                                             </div>
@@ -61,12 +68,14 @@ function Gamelobby(props) {
                                                     <CustomTab eventKey="yourgames" title="屬於您">
                                                         <DefaultVedio />
                                                         <Titlebar title="全部遊戲" />
-                                                        {/* <Section listItems={listItems1} /> */}
-                                                        <Section tiList={tiList} userInfo={userInfo} />
+                                                        {/* hardcode demo用 */}
+                                                        <Section listItems={listItems1} />
+                                                        {/* <Section tiList={tiList} userInfo={userInfo} /> */}
                                                     </CustomTab>
                                                     <CustomTab eventKey="baccarat" title="百家樂">
                                                         <Titlebar title="百家樂" />
-                                                        {/* <Section listItems={listItems2} /> */}
+                                                        {/* hardcode demo用 */}
+                                                        <Section listItems={listItems2} />
                                                     </CustomTab>
                                                 </CustomTabs>
                                             </div>

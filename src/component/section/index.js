@@ -53,7 +53,7 @@ const Section = (props) => {
     return (
         <div className="section_box">
             <ul>
-                {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
+                {/* {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
                     <li key={index}
                         onMouseEnter={() => setHoveredItem(i.TableNumber)}
                         onMouseLeave={mouseleave}
@@ -126,9 +126,9 @@ const Section = (props) => {
                             <div className='more forpc' onClick={() => { setMoreScale('more-scale') }} />
                         </div>
                     </li>
-                ))}
+                ))} */}
                 {/* hardcode使用 */}
-                {/* {listItems.map((item, k) => (
+                {listItems.map((item, k) => (
                     <li key={k}
                         onMouseEnter={() => setHoveredItem(item.gameid)}
                         onMouseLeave={mouseleave}
@@ -195,7 +195,7 @@ const Section = (props) => {
                             <div className='more forpc' onClick={() => { setMoreScale('more-scale') }} />
                         </div>
                     </li>
-                ))} */}
+                ))}
             </ul>
         </div>
     );
