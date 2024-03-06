@@ -331,6 +331,22 @@
     }
 }
 
+@media screen and (max-width: 1082px) {
+    .game-betting-area {
+        .game-betting-area-box {
+
+            .left-box,
+            .right-box {
+                display: none;
+            }
+
+            .middle-box {
+                width: 90%;
+            }
+        }
+    }
+}
+
 @media screen and (max-width:1072px) {
     .game-betting-area {
         .game-betting-area-box {
@@ -360,22 +376,6 @@
                 // div:nth-child(5) {
                 //     width: 47.5%;
                 // }
-            }
-        }
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .game-betting-area {
-        .game-betting-area-box {
-
-            .left-box,
-            .right-box {
-                display: none;
-            }
-
-            .middle-box {
-                width: 90%;
             }
         }
     }

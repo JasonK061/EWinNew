@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import {
+    setSeconds,
+    setFirstSeconds
+} from 'store/actions';
+
 import GameHeader from 'games_component/game_header';
 import GameFooterArea from 'games_component/game_footer_area';
 import GameFooterBG from 'games_component/game_footer_bg';
@@ -9,8 +15,22 @@ import GameBettingArea from 'games_component/game_betting_area';
 import Loading from 'component/loading';
 import './index.scss';
 
+
 const GameView = (props) => {
-    const [isLoading, setIsLoading] = useState(true);
+
+    const [seconds, setSeconds] = useState(777);
+    const [firstSeconds, setFirstSeconds] = useState(777);
+
+
+    // const [isLoading, setIsLoading] = useState(true);
+
+    const userInfo = props.userInfo;
+
+    // const isLoading = props.isLoading;
+    const isLoading = false; // 開發時先這樣用
+
+
+
     const numDots = 8;
     const loadingDots = Array.from({ length: numDots }, (_, index) => (
         <div key={index}></div>
@@ -20,19 +40,19 @@ const GameView = (props) => {
 
 
     // 這一塊只是demo作假用,之後可移除,底下判斷 連結websocket後 setIsLoading(false), 才是之後實際用到的
-    useEffect(() => {
-        // 模擬組件載入完成後的動作
-        const loadingTimeout = setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
+    // useEffect(() => {
+    //     // 模擬組件載入完成後的動作
+    //     const loadingTimeout = setTimeout(() => {
+    //         setIsLoading(false);
+    //     }, 2000);
 
-        // 清除 timeout
-        return () => clearTimeout(loadingTimeout);
-    }, []);
+    //     // 清除 timeout
+    //     return () => clearTimeout(loadingTimeout);
+    // }, []);
 
-    const [seconds, setSeconds] = useState(25);
-    const [firstSeconds, setFirstSeconds] = useState(25);
 
+
+    const localTableTitle = localStorage.getItem('getLocalTableTitle');
 
 
     useEffect(() => {
@@ -58,8 +78,8 @@ const GameView = (props) => {
     // 實際應該是發牌手有按按鍵時才會開始倒數, 以下兩個 useE`ffect只是demo用
     useEffect(() => {
         const timerLoading = setTimeout(() => {
-            setSeconds(25);
-            setFirstSeconds(25);
+            setSeconds(777);
+            setFirstSeconds(777);
         }, 10000);
 
         return () => clearTimeout(timerLoading);
@@ -77,8 +97,8 @@ const GameView = (props) => {
                         <CountdownCircle seconds={seconds} firstSeconds={firstSeconds} />
                     </div>
                     <GameBettingAction action={bettingAction} />
-                    <GameBettingArea seconds={seconds} />
                     <GameFooterArea />
+                    <GameBettingArea seconds={seconds} />
                     <GameFooterBG />
                 </div>
             )}
@@ -86,4 +106,10 @@ const GameView = (props) => {
     );
 };
 
+// const mapDispatchToProps = (dispatch) => ({
+//     setSeconds,
+//     setFirstSeconds
+// });
+
+// export default connect(mapDispatchToProps)(GameView);
 export default GameView;

@@ -38,3 +38,5 @@ README.md
 
 # gitignore
 .gitignore
+*.css
+*.css.map

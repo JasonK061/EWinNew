@@ -1,4 +1,4 @@
-// 暫時先這樣hardcode
+// 暫時先這樣hardcode 假資料時使用
 
 export const listItems1 = [
     { gametitle: '骰盅A桌', gameid: 'carat-1', ishot: '0', wallet: '100', walletstate: 'PHP', dis: '1最奢華的場景最奢華的場景最奢華的場景最奢華的場景最奢華的場景最奢華的場景最奢華的場景最奢華的場景最奢華的' },

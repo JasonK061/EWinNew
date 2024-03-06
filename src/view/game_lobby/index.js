@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+
 import Section from 'component/section';
 import { listItems1, listItems2 } from '../data';
 import DefaultVedio from 'component/default_vedio';
@@ -9,24 +9,11 @@ import Loading from 'component/loading';
 
 import './index.scss';
 
-function Gamelobby() {
+function Gamelobby(props) {
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-
-        // 模擬組件載入完成後的動作
-        // 這一塊只是demo作假用,之後可移除,底下判斷 連結websocket後 setIsLoading(false), 才是之後實際用到的
-
-        const loadingTimeout = setTimeout(() => {
-            setIsLoading(false);
-
-        }, 2000);
-
-        // 清除 timeout
-        return () => clearTimeout(loadingTimeout);
-
-    }, []);
+    const tiList = props.tiList;
+    const userInfo = props.userInfo;
+    const isLoading = props.isLoading;
 
 
     return (
@@ -34,8 +21,8 @@ function Gamelobby() {
             {isLoading ? (
                 <Loading />
             ) : (
-                <div>
 
+                <div>
                     <div className='forpc'>
                         <div className='hasbg'>
                             <div className="container-fluid demobg"></div>
@@ -48,10 +35,10 @@ function Gamelobby() {
                                                     defaultActiveKey="yourgames"
                                                 >
                                                     <CustomTab eventKey="yourgames" title="屬於您">
-                                                        <Section listItems={listItems1} />
+                                                        <Section tiList={tiList} userInfo={userInfo} />
                                                     </CustomTab>
                                                     <CustomTab eventKey="baccarat" title="百家樂">
-                                                        <Section listItems={listItems2} />
+                                                        {/* <Section listItems={listItems2} /> */}
                                                     </CustomTab>
                                                 </CustomTabs>
                                             </div>
@@ -74,11 +61,12 @@ function Gamelobby() {
                                                     <CustomTab eventKey="yourgames" title="屬於您">
                                                         <DefaultVedio />
                                                         <Titlebar title="全部遊戲" />
-                                                        <Section listItems={listItems1} />
+                                                        {/* <Section listItems={listItems1} /> */}
+                                                        <Section tiList={tiList} userInfo={userInfo} />
                                                     </CustomTab>
                                                     <CustomTab eventKey="baccarat" title="百家樂">
                                                         <Titlebar title="百家樂" />
-                                                        <Section listItems={listItems2} />
+                                                        {/* <Section listItems={listItems2} /> */}
                                                     </CustomTab>
                                                 </CustomTabs>
                                             </div>

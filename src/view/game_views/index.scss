@@ -6,6 +6,7 @@
     align-items: center;
     width: 100%;
     position: relative;
+    overflow-x: hidden;
 
     .game-view-box {
         width: 100%;
@@ -24,12 +25,52 @@
 
 }
 
-@media screen and (max-width:729px) {
+@media screen and (max-width:1082px) {
     .game-view-wrap {
         .game-view-box {
             .game-content {
                 height: 180px;
                 background: url('../../img/games/h5-bg.png') no-repeat center center/cover;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 642px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 100vh;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:435px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 300px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:415px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 290px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:376px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 180px;
             }
         }
     }

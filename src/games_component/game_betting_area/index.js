@@ -1,9 +1,37 @@
 import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, useDispatch } from 'react-redux';
-import { setDefaultChipsId, checkClickChipsId } from 'store/actions';
+import {
+    setDefaultChipsId,
+    checkClickChipsId,
+    setCheckNumberOfClick1,
+    setCheckNumberOfClick2,
+    setCheckNumberOfClick3,
+    setCheckNumberOfClick4,
+    setCheckNumberOfClick5,
+    setIsAnimationActive1,
+    setIsAnimationActive2,
+    setIsAnimationActive3,
+    setIsAnimationActive4,
+    setIsAnimationActive5,
+    setTotalChips1,
+    setTotalChips2,
+    setTotalChips3,
+    setTotalChips4,
+    setTotalChips5,
+    setIsAct1,
+    setIsAct2,
+    setIsAct3,
+    setIsAct4,
+    setIsAct5,
+    setSeconds
+} from 'store/actions';
+
+import ButtonBox from 'games_component/game_buttons/game_btn_box';
 
 import './index.scss';
+import './animations.scss';
+import './media.scss';
 
 // 之後會優化代碼
 
@@ -17,11 +45,17 @@ const GameBettingArea = (props) => {
     const pathRef4 = useRef(null);
     const pathRef5 = useRef(null);
 
-    const [isAct1, setIsAct1] = useState('');
-    const [isAct2, setIsAct2] = useState('');
-    const [isAct3, setIsAct3] = useState('');
-    const [isAct4, setIsAct4] = useState('');
-    const [isAct5, setIsAct5] = useState('');
+    // const [isAct1, setIsAct1] = useState('');
+    // const [isAct2, setIsAct2] = useState('');
+    // const [isAct3, setIsAct3] = useState('');
+    // const [isAct4, setIsAct4] = useState('');
+    // const [isAct5, setIsAct5] = useState('');
+
+    // const [totalChips1, setTotalChips1] = useState(0);
+    // const [totalChips2, setTotalChips2] = useState(0);
+    // const [totalChips3, setTotalChips3] = useState(0);
+    // const [totalChips4, setTotalChips4] = useState(0);
+    // const [totalChips5, setTotalChips5] = useState(0);
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -29,38 +63,28 @@ const GameBettingArea = (props) => {
     const [chips, setChips] = useState(0);
     const [buttonClickCounts, setButtonClickCounts] = useState({ btn1: 0, btn2: 0, btn3: 0, btn4: 0, btn5: 0 });
 
+    const numberOfClick1 = props.numberOfClick1;
+    const numberOfClick2 = props.numberOfClick2;
+    const numberOfClick3 = props.numberOfClick3;
+    const numberOfClick4 = props.numberOfClick4;
+    const numberOfClick5 = props.numberOfClick5;
+
+    const chipsDenominations = [25, 50, 100, 500, 1000, 1250, 5000, 10000];
+
+
+
     const updateButtonClickCount = (button) => {
         setButtonClickCounts((prevCounts) => ({
             ...prevCounts,
-            [button]: prevCounts[button] + 1,
+            [button]: prevCounts[button] + 1
         }));
     };
 
 
-    const [totalChips1, setTotalChips1] = useState(0);
-    const [totalChips2, setTotalChips2] = useState(0);
-    const [totalChips3, setTotalChips3] = useState(0);
-    const [totalChips4, setTotalChips4] = useState(0);
-    const [totalChips5, setTotalChips5] = useState(0);
-
-
     useEffect(() => {
-        switch (getChipsId) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                setChips([25, 50, 100, 500, 1000, 1250, 5000, 10000][getChipsId]);
-                setButtonClickCounts({ btn1: 0, btn2: 0, btn3: 0, btn4: 0, btn5: 0 });
-                break;
-            default:
-        }
-    }, [getChipsId]);
-
+        setChips([25, 50, 100, 500, 1000, 1250, 5000, 10000][props.defaultChipsId]);
+        // setButtonClickCounts({ btn1: 0, btn2: 0, btn3: 0, btn4: 0, btn5: 0 });
+    }, [props.defaultChipsId]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -77,16 +101,18 @@ const GameBettingArea = (props) => {
 
     useEffect(() => {
         if (props.seconds === 0) {
-            setIsAct1('');
-            setIsAct2('');
-            setIsAct3('');
-            setIsAct4('');
-            setIsAct5('');
-            setTotalChips1(0);
-            setTotalChips2(0);
-            setTotalChips3(0);
-            setTotalChips4(0);
-            setTotalChips5(0);
+            props.setIsAct1('');
+            props.setIsAct2('');
+            props.setIsAct3('');
+            props.setIsAct4('');
+            props.setIsAct5('');
+            props.setTotalChips1(0);
+            props.setTotalChips2(0);
+            props.setTotalChips3(0);
+            props.setTotalChips4(0);
+            props.setTotalChips5(0);
+            // setCheckNumberOfClick1(0);
+            // setCheckNumberOfClick2(0);
             setButtonClickCounts({ btn1: 0, btn2: 0, btn3: 0, btn4: 0, btn5: 0 });
         }
     }, [props.seconds])
@@ -262,23 +288,31 @@ const GameBettingArea = (props) => {
 
         // const parentWidth = canvas.parentElement.clientWidth;
         // canvas.width = parentWidth;
-        if (windowWidth < 340) {
+        if (windowWidth < 320) {
             canvas.width = 304;
             canvas.height = 152;
             widthForMb()
 
-        } else if ((windowWidth < 360)) {
+        } else if (windowWidth < 340) {
+            canvas.width = 304;
+            canvas.height = 152;
+            widthForMb()
+        } else if ((windowWidth < 361)) {
             canvas.width = 330;
             canvas.height = 166;
             widthForMb();
-        } else if ((windowWidth < 424)) {
-            canvas.width = 360;
-            canvas.height = 175;
+        } else if ((windowWidth < 378)) {
+            canvas.width = 350;
+            canvas.height = 170;
+            widthForMb();
+        } else if ((windowWidth < 415)) {
+            canvas.width = 375;
+            canvas.height = 185;
             widthForMb();
         } else if ((windowWidth < 435)) {
-            canvas.width = 425;
-            canvas.height = 120;
-            widthForPC();
+            canvas.width = 410;
+            canvas.height = 195;
+            widthForMb();
         } else if ((windowWidth < 502)) {
             canvas.width = 425;
             canvas.height = 120;
@@ -294,76 +328,138 @@ const GameBettingArea = (props) => {
 
         }
 
+
         const handleClick = (event) => {
 
             const rect = canvas.getBoundingClientRect();
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
 
-
             if (ctx.isPointInPath(pathRef1.current, mouseX, mouseY)) {
-                // console.log('path1');
-                setIsAct1('isAct');
+                props.setIsAct1('isAct');
                 dispatch(checkClickChipsId('clickBtn1'));
                 updateButtonClickCount('btn1');
-                if (buttonClickCounts.btn1 > 0) {
-                    const newTotalChips1 = ((buttonClickCounts.btn1 * chips) + chips);
-                    setTotalChips1(newTotalChips1);
 
-                } else {
-                    setTotalChips1(chips);
+                // 寫入 redux後需要更改寫法
+                const newTotalChips1 = buttonClickCounts.btn1 > 0 ? props.totalChips1 + chips : chips;
+                props.setTotalChips1(newTotalChips1);
+
+                // if (buttonClickCounts.btn1 > 0) {
+                //     props.setTotalChips1(prevTotalChips => {
+                //         return prevTotalChips + chips;
+                //     });
+
+                // } else {
+                //     props.setTotalChips1(chips);
+                // }
+
+                if (props.clickChipsId === 'clickBtn1') {
+                    dispatch(setCheckNumberOfClick1(numberOfClick1 + 1));
                 }
+
+                props.setIsAnimationActive1('');
+
+                setTimeout(() => {
+                    props.setIsAnimationActive1('active');
+                }, 200);
 
             } else if (ctx.isPointInPath(pathRef2.current, mouseX, mouseY)) {
-                // console.log('path2');
-                setIsAct2('isAct');
+                props.setIsAct2('isAct');
                 dispatch(checkClickChipsId('clickBtn2'));
                 updateButtonClickCount('btn2');
-                if (buttonClickCounts.btn2 > 0) {
-                    const newTotalChips2 = ((buttonClickCounts.btn2 * chips) + chips);
-                    setTotalChips2(newTotalChips2);
-                } else {
-                    setTotalChips2(chips);
+                const newTotalChips2 = buttonClickCounts.btn2 > 0 ? props.totalChips2 + chips : chips;
+                props.setTotalChips2(newTotalChips2);
+
+                // if (buttonClickCounts.btn2 > 0) {
+                //     setTotalChips2(prevTotalChips => {
+                //         return prevTotalChips + chips;
+                //     });
+                // } else {
+                //     setTotalChips2(chips);
+                // }
+
+                if (props.clickChipsId === 'clickBtn2') {
+                    dispatch(setCheckNumberOfClick2(numberOfClick2 + 1));
                 }
+
+                props.setIsAnimationActive2('');
+
+                setTimeout(() => {
+                    props.setIsAnimationActive2('active');
+                }, 200);
 
             } else if (ctx.isPointInPath(pathRef3.current, mouseX, mouseY)) {
-                // console.log('path3');
-                setIsAct3('isAct');
+                props.setIsAct3('isAct');
                 dispatch(checkClickChipsId('clickBtn3'));
                 updateButtonClickCount('btn3');
-                if (buttonClickCounts.btn3 > 0) {
-                    const newTotalChips3 = ((buttonClickCounts.btn3 * chips) + chips);
-                    setTotalChips3(newTotalChips3);
+                const newTotalChips3 = buttonClickCounts.btn3 > 0 ? props.totalChips3 + chips : chips;
+                props.setTotalChips3(newTotalChips3);
+                // if (buttonClickCounts.btn3 > 0) {
+                //     setTotalChips3(prevTotalChips => {
+                //         return prevTotalChips + chips;
+                //     });
+                // } else {
+                //     setTotalChips3(chips);
+                // }
 
-                } else {
-                    setTotalChips3(chips);
+                if (props.clickChipsId === 'clickBtn3') {
+                    dispatch(setCheckNumberOfClick3(numberOfClick3 + 1));
                 }
+
+                props.setIsAnimationActive3('');
+
+                setTimeout(() => {
+                    props.setIsAnimationActive3('active');
+                }, 200);
 
             } else if (ctx.isPointInPath(pathRef4.current, mouseX, mouseY)) {
-                // console.log('path4');
-                setIsAct4('isAct');
+                props.setIsAct4('isAct');
                 dispatch(checkClickChipsId('clickBtn4'));
                 updateButtonClickCount('btn4');
-                if (buttonClickCounts.btn4 > 0) {
-                    const newTotalChips4 = ((buttonClickCounts.btn4 * chips) + chips);
-                    setTotalChips4(newTotalChips4);
+                const newTotalChips4 = buttonClickCounts.btn4 > 0 ? props.totalChips4 + chips : chips;
+                props.setTotalChips4(newTotalChips4);
+                // if (buttonClickCounts.btn4 > 0) {
+                //     setTotalChips4(prevTotalChips => {
+                //         return prevTotalChips + chips;
+                //     });
 
-                } else {
-                    setTotalChips4(chips);
+                // } else {
+                //     setTotalChips4(chips);
+                // }
+
+                if (props.clickChipsId === 'clickBtn4') {
+                    dispatch(setCheckNumberOfClick4(numberOfClick4 + 1));
                 }
+
+                props.setIsAnimationActive4('');
+
+                setTimeout(() => {
+                    props.setIsAnimationActive4('active');
+                }, 200);
 
             } else if (ctx.isPointInPath(pathRef5.current, mouseX, mouseY)) {
-                // console.log('path5');
-                setIsAct5('isAct');
+                props.setIsAct5('isAct');
                 dispatch(checkClickChipsId('clickBtn5'));
                 updateButtonClickCount('btn5');
-                if (buttonClickCounts.btn5 > 0) {
-                    const newTotalChips5 = ((buttonClickCounts.btn5 * chips) + chips);
-                    setTotalChips5(newTotalChips5);
+                const newTotalChips5 = buttonClickCounts.btn5 > 0 ? props.totalChips5 + chips : chips;
+                props.setTotalChips5(newTotalChips5);
+                // if (buttonClickCounts.btn5 > 0) {
+                //     setTotalChips5(prevTotalChips => {
+                //         return prevTotalChips + chips;
+                //     });
+                // } else {
+                //     setTotalChips5(chips);
+                // }
 
-                } else {
-                    setTotalChips5(chips);
+                if (props.clickChipsId === 'clickBtn5') {
+                    dispatch(setCheckNumberOfClick5(numberOfClick5 + 1));
                 }
+
+                props.setIsAnimationActive5('');
+
+                setTimeout(() => {
+                    props.setIsAnimationActive5('active');
+                }, 200);
             }
             else {
 
@@ -385,6 +481,39 @@ const GameBettingArea = (props) => {
         chips
     ])
 
+
+    // 限制只顯示3筆, 模擬 totalchips值 由低到高
+    const renderAnimations = (totalChips, divClassNamePrefix) => {
+        const animations = [];
+        let generatedDivs = 0; // 已生成的 div 數量
+        let remainingChips = totalChips;
+
+        for (let i = chipsDenominations.length - 1; i >= 0 && generatedDivs < 3; i--) {
+            const chipsDenomination = chipsDenominations[i];
+            const numberOfChips = Math.floor(remainingChips / chipsDenomination);
+
+            for (let j = 0; j < numberOfChips && generatedDivs < 3; j++) {
+                animations.push(
+                    <div key={generatedDivs} className={`${divClassNamePrefix} animation-${generatedDivs + 1}`}>
+                        <img src={require(`../../img/games/chips/chips-${chipsDenomination}.png`)} alt={chipsDenomination} />
+                    </div>
+                );
+                generatedDivs++;
+            }
+
+            remainingChips -= numberOfChips * chipsDenomination;
+        }
+        return animations;
+    };
+
+    const animations1 = renderAnimations(props.totalChips1, "clickBtn1");
+    const animations2 = renderAnimations(props.totalChips2, "clickBtn2");
+    const animations3 = renderAnimations(props.totalChips3, "clickBtn3");
+    const animations4 = renderAnimations(props.totalChips4, "clickBtn4");
+    const animations5 = renderAnimations(props.totalChips5, "clickBtn5");
+
+
+
     return (
         <div className='game-betting-area'>
             <div className='game-betting-area-box'>
@@ -394,66 +523,88 @@ const GameBettingArea = (props) => {
                 <div
                     className={`middle-box ${props.seconds === 0 ? 'disable' : 'enable'}`}>
                     <canvas ref={canvasRef} />
-                    <div className={`btn1 ${isAct1}`} >
+                    <ButtonBox label={t('Global.p_pair')} bglabel="" totalChips={props.totalChips1} isAct={props.isAct1} animations={animations1} getChipsId={getChipsId} isAnimationActive={props.isAnimationActive1} btn="btn1" />
+                    <ButtonBox label={t('Global.tie')} bglabel="" totalChips={props.totalChips2} isAct={props.isAct2} animations={animations2} getChipsId={getChipsId} isAnimationActive={props.isAnimationActive2} btn="btn2" />
+                    <ButtonBox label={t('Global.b_pair')} bglabel="" totalChips={props.totalChips3} isAct={props.isAct3} animations={animations3} getChipsId={getChipsId} isAnimationActive={props.isAnimationActive3} btn="btn3" />
+                    <ButtonBox label={t('Global.banker')} bglabel={t('Global.banker')} totalChips={props.totalChips4} isAct={props.isAct4} animations={animations4} getChipsId={getChipsId} isAnimationActive={props.isAnimationActive4} btn="btn4" />
+                    <ButtonBox label={t('Global.player')} bglabel={t('Global.player')} totalChips={props.totalChips5} isAct={props.isAct5} animations={animations5} getChipsId={getChipsId} isAnimationActive={props.isAnimationActive5} btn="btn5" />
+                    {/* <div className={`btn1 btn-box ${isAct1}`} >
                         <div className="info-box">
                             <p>{t('Global.p_pair')}</p>
-                            {/* <p>基礎代幣:{chips}</p>
-                            <p>點擊次數:{btn1clickCount}</p> */}
-                            {totalChips1 !== 0 ? <p>{totalChips1}</p> : ''}
+                            <div className={`chips-animation-box chipsId-${getChipsId} ${props.isAnimationActive1 ? 'active' : ''}`}>
+                                <span>
+                                    {totalChips1 !== 0 ? totalChips1 : ''}
+                                </span>
+                                {isAct1 && animations1}
+                            </div>
                         </div>
-                    </div>
-                    <div className={`btn2 ${isAct2}`}>
-                        <div className="info-box">
-                            <p>{t('Global.tie')}</p>
-                            {totalChips2 !== 0 ? <p>{totalChips2}</p> : ''}
-                        </div>
-                    </div>
-                    <div className={`btn3 ${isAct3}`}>
-                        <div className="info-box">
-                            <p>{t('Global.b_pair')}</p>
-                            {totalChips3 !== 0 ? <p>{totalChips3}</p> : ''}
-                        </div>
-                    </div>
-                    <div className={`btn4 ${isAct4}`}>
-                        <div className="info-box">
-                            <p>{t('Global.banker')}</p>
-                            {totalChips4 !== 0 ? <p>{totalChips4}</p> : ''}
-                        </div>
-                        <div className="bg-box">
-                            <p>{t('Global.banker')}</p>
-                        </div>
-                    </div>
-                    <div className={`btn5 ${isAct5}`}>
-                        <div className="info-box">
-                            <p>{t('Global.player')}</p>
-                            {totalChips5 !== 0 ? <p>{totalChips5}</p> : ''}
-                        </div>
-                        <div className="bg-box">
-                            <p>{t('Global.player')}</p>
-                        </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='right-box'>
 
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
 const mapStateToProps = (state) => {
-    // console.log('檢查state', state);
+    // console.log('defaultChipsId', state.root.defaultChipsId);
+    // console.log('clickChipsId', state.root.clickChipsId);
     // console.log('檢查state.clickCount', state.root.clickCount);
     return {
         defaultChipsId: state.root.defaultChipsId,
-        clickChipsId: state.root.clickChipsId
+        clickChipsId: state.root.clickChipsId,
+        // seconds: state.root.seconds,
+        numberOfClick: state.root.numberOfClick,
+        numberOfClick1: state.root.numberOfClick1,
+        numberOfClick2: state.root.numberOfClick2,
+        numberOfClick3: state.root.numberOfClick3,
+        numberOfClick4: state.root.numberOfClick4,
+        numberOfClick5: state.root.numberOfClick5,
+        isAnimationActive1: state.root.isAnimationActive1,
+        isAnimationActive2: state.root.isAnimationActive2,
+        isAnimationActive3: state.root.isAnimationActive3,
+        isAnimationActive4: state.root.isAnimationActive4,
+        isAnimationActive5: state.root.isAnimationActive5,
+        totalChips1: state.root.totalChips1,
+        totalChips2: state.root.totalChips2,
+        totalChips3: state.root.totalChips3,
+        totalChips4: state.root.totalChips4,
+        totalChips5: state.root.totalChips5,
+        isAct1: state.root.isAct1,
+        isAct2: state.root.isAct2,
+        isAct3: state.root.isAct3,
+        isAct4: state.root.isAct4,
+        isAct5: state.root.isAct5,
     };
 };
 
-
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
     setDefaultChipsId,
-    checkClickChipsId
-};
+    checkClickChipsId,
+    // setSeconds,
+    setCheckNumberOfClick1,
+    setCheckNumberOfClick2,
+    setCheckNumberOfClick3,
+    setCheckNumberOfClick4,
+    setCheckNumberOfClick5,
+    setIsAnimationActive1: (isActive) => dispatch(setIsAnimationActive1(isActive)),
+    setIsAnimationActive2: (isActive) => dispatch(setIsAnimationActive2(isActive)),
+    setIsAnimationActive3: (isActive) => dispatch(setIsAnimationActive3(isActive)),
+    setIsAnimationActive4: (isActive) => dispatch(setIsAnimationActive4(isActive)),
+    setIsAnimationActive5: (isActive) => dispatch(setIsAnimationActive5(isActive)),
+    setTotalChips1: (totalChips1) => dispatch(setTotalChips1(totalChips1)),
+    setTotalChips2: (totalChips2) => dispatch(setTotalChips2(totalChips2)),
+    setTotalChips3: (totalChips3) => dispatch(setTotalChips3(totalChips3)),
+    setTotalChips4: (totalChips4) => dispatch(setTotalChips4(totalChips4)),
+    setTotalChips5: (totalChips5) => dispatch(setTotalChips5(totalChips5)),
+    setIsAct1: (isAct1) => dispatch(setIsAct1(isAct1)),
+    setIsAct2: (isAct2) => dispatch(setIsAct2(isAct2)),
+    setIsAct3: (isAct3) => dispatch(setIsAct3(isAct3)),
+    setIsAct4: (isAct4) => dispatch(setIsAct4(isAct4)),
+    setIsAct5: (isAct5) => dispatch(setIsAct5(isAct5)),
+
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameBettingArea);

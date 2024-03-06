@@ -12,6 +12,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: -9rem;
 
         .left-box,
         .right-box {
@@ -36,7 +37,7 @@
 
             .info-box {
                 p {
-                    font-size: 1.5rem;
+                    font-size: 1.4rem;
                     color: #fff;
                     margin: 0;
                 }
@@ -91,6 +92,46 @@
                 position: absolute;
             }
 
+            .btn-box {
+                &.isAct {
+                    span {
+                        display: inline-block;
+                        padding: 5px 25px 4px;
+                        border: 1px solid #fff;
+                        background: rgba(0, 0, 0, 0.7);
+                        border-radius: 19px;
+                        font-size: 0.8rem;
+                        color: #fff;
+                        position: absolute;
+                        z-index: 4;
+
+                        &::before {
+                            content: '';
+                            background: url('../../img/games/chips/small_chip.png') no-repeat center center/contain;
+                            display: block;
+                            width: 13px;
+                            height: 13px;
+                            position: absolute;
+                            left: 7px;
+                            bottom: 4px;
+                        }
+
+                        &::after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            width: 7px;
+                            height: 7px;
+                            background: rgba(0, 0, 0, 0.4);
+                            left: 50%;
+                            bottom: 0;
+                            transform: translate(-50%, 63%) rotate(45deg);
+                            box-shadow: 1px 1px 0 0 #fff;
+                        }
+                    }
+                }
+            }
+
             .btn1 {
                 left: 0;
                 bottom: 0;
@@ -100,6 +141,13 @@
 
                 &.isAct {
                     background: url('../../img/games/control/btn1_act.png') no-repeat center center/contain;
+
+                    span {
+                        left: -0.8rem;
+                        bottom: 4rem;
+                    }
+
+
                 }
 
                 .info-box {
@@ -117,12 +165,20 @@
 
                 &.isAct {
                     background: url('../../img/games/control/btn2_act.png') no-repeat center center/contain;
+
+                    span {
+                        left: -0.9rem;
+                        bottom: 4rem;
+                    }
+
+
                 }
 
                 .info-box {
                     left: 50%;
                     bottom: 1.2rem;
                     transform: translate(-50%, 0);
+                    z-index: 99;
                 }
             }
 
@@ -135,6 +191,11 @@
 
                 &.isAct {
                     background: url('../../img/games/control/btn3_act.png') no-repeat center center/contain;
+
+                    span {
+                        left: -0.9rem;
+                        bottom: 4rem;
+                    }
                 }
 
                 .info-box {
@@ -152,6 +213,12 @@
 
                 &.isAct {
                     background: url('../../img/games/control/btn4_act.png') no-repeat center center/contain;
+
+                    span {
+                        left: -0.8rem;
+                        bottom: 4rem;
+                    }
+
                 }
 
                 .info-box {
@@ -176,6 +243,11 @@
 
                 &.isAct {
                     background: url('../../img/games/control/btn5_act.png') no-repeat center center/contain;
+
+                    span {
+                        left: -0.8rem;
+                        bottom: 4rem;
+                    }
                 }
 
                 .info-box {
@@ -262,7 +334,7 @@
 }
 
 
-@media screen and (max-width:729px) {
+@media screen and (max-width:1082px) {
     .game-betting-area {
         bottom: auto;
         top: 180px;
@@ -298,7 +370,7 @@
                     height: 142px;
 
                     .info-box {
-                        left: 3rem;
+                        left: 2.5rem;
                     }
                 }
 
@@ -317,7 +389,7 @@
                     height: 142px;
 
                     .info-box {
-                        right: 3rem;
+                        right: 2.5rem;
                     }
                 }
 
@@ -353,12 +425,58 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .game-betting-area {
+        .game-betting-area-box {
+            .middle-box {
+                .btn-box {
+                    &.isAct {
+                        span {
+                            font-size: 0.6rem;
+
+                            &::before {
+                                bottom: 2px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 642px) {
+    .game-betting-area {
+        top: 0;
+
+        .game-betting-area-box {
+            margin-top: 2rem;
+
+            .middle-box {
+                .btn-box {
+                    &.isAct {
+                        span {
+                            font-size: 0.6rem;
+
+                            &::before {
+                                bottom: 2px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (max-width:502px) {
     .game-betting-area {
         bottom: auto;
         top: 180px;
 
         .game-betting-area-box {
+            margin-top: 0rem;
+
             .middle-box {
 
                 width: 425px;
@@ -418,12 +536,13 @@
     }
 }
 
-@media screen and (max-width: 424px) {
+@media screen and (max-width: 435px) {
     .game-betting-area {
         bottom: auto;
-        top: 180px;
+        top: 310px;
 
         .game-betting-area-box {
+            margin-top: 0rem;
 
             .left-box,
             .right-box {
@@ -431,8 +550,8 @@
             }
 
             .middle-box {
-                width: 360px;
-                height: 175px;
+                width: 410px;
+                height: 195px;
                 margin-top: 0;
                 // border: 1px solid #fff;
 
@@ -443,10 +562,10 @@
 
 
                 .btn1 {
-                    left: 0;
+                    left: 5px;
                     bottom: 0;
-                    width: 120px;
-                    height: 175px;
+                    width: 129px;
+                    height: 196px;
                     background: url('../../img/games/control/mb_btn1.png') no-repeat center center/contain;
 
                     &.isAct {
@@ -455,10 +574,10 @@
                 }
 
                 .btn2 {
-                    width: 226px;
-                    height: 67px;
+                    width: 223px;
+                    height: 76px;
                     bottom: 0;
-                    left: 67px;
+                    left: 93px;
                     background: url('../../img/games/control/mb_btn2.png') no-repeat center center/contain;
 
                     &.isAct {
@@ -467,10 +586,10 @@
                 }
 
                 .btn3 {
-                    right: 0;
+                    right: 7px;
                     bottom: 0;
-                    width: 120px;
-                    height: 175px;
+                    width: 129px;
+                    height: 196px;
                     background: url('../../img/games/control/mb_btn3.png') no-repeat center center/contain;
 
                     &.isAct {
@@ -479,10 +598,10 @@
                 }
 
                 .btn4 {
-                    height: 104px;
-                    width: 139px;
-                    top: 0;
-                    right: 38px;
+                    height: 118px;
+                    width: 161px;
+                    top: 0px;
+                    right: 45px;
                     background: url('../../img/games/control/mb_btn4.png') no-repeat center center/contain;
 
                     &.isAct {
@@ -491,10 +610,10 @@
                 }
 
                 .btn5 {
-                    height: 104px;
-                    width: 139px;
-                    top: 0;
-                    left: 38px;
+                    height: 118px;
+                    width: 161px;
+                    top: 0px;
+                    left: 42px;
                     background: url('../../img/games/control/mb_btn5.png') no-repeat center center/contain;
 
                     &.isAct {
@@ -507,21 +626,82 @@
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 415px) {
     .game-betting-area {
-        bottom: auto;
+
+        top: 330px;
+
+        .game-betting-area-box {
+            margin-top: 0rem;
+
+            .middle-box {
+                width: 375px;
+                height: 185px;
+                margin-top: 0;
+                // border: 1px solid #fff;
+
+                &.disable {
+                    transform: none;
+                    margin-top: 3rem;
+                }
+
+
+                .btn1 {
+                    left: 5px;
+                    bottom: 0;
+                    width: 120px;
+                    height: 175px;
+
+                }
+
+                .btn2 {
+                    width: 226px;
+                    height: 67px;
+                    bottom: 0;
+                    left: 75px;
+
+                }
+
+                .btn3 {
+                    right: 5px;
+                    bottom: 0;
+                    width: 120px;
+                    height: 175px;
+
+                }
+
+                .btn4 {
+                    height: 104px;
+                    width: 140px;
+                    top: 10px;
+                    right: 44px;
+
+                }
+
+                .btn5 {
+                    height: 104px;
+                    width: 139px;
+                    top: 10px;
+                    left: 44px;
+
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 378px) {
+    .game-betting-area {
         top: 180px;
 
         .game-betting-area-box {
+            margin-top: 0rem;
 
-            .left-box,
-            .right-box {
-                display: none;
-            }
 
             .middle-box {
-                width: 330px;
-                height: 166px;
+                width: 350px;
+                height: 170px;
                 margin-top: 0;
                 // border: 1px solid #fff;
 
@@ -531,7 +711,7 @@
                 }
 
                 .btn1 {
-                    left: 0;
+                    left: 5px;
                     bottom: 0;
                     width: 111px;
                     height: 166px;
@@ -542,11 +722,11 @@
                     width: 191px;
                     height: 64px;
                     bottom: 0;
-                    left: 68px;
+                    left: 79px;
                 }
 
                 .btn3 {
-                    right: 0;
+                    right: 6px;
                     bottom: 0;
                     width: 111px;
                     height: 166px;
@@ -555,15 +735,15 @@
                 .btn4 {
                     height: 99px;
                     width: 133px;
-                    top: 0;
-                    right: 33px;
+                    top: 4px;
+                    right: 39px;
                 }
 
                 .btn5 {
                     height: 99px;
                     width: 133px;
-                    top: 0;
-                    left: 33px;
+                    top: 4px;
+                    left: 39px;
 
                 }
 
@@ -578,11 +758,8 @@
         top: 180px;
 
         .game-betting-area-box {
+            margin-top: 0rem;
 
-            .left-box,
-            .right-box {
-                display: none;
-            }
 
             .middle-box {
                 width: 304px;

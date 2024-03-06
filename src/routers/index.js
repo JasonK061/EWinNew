@@ -11,20 +11,47 @@ import Gamelobby from 'view/game_lobby';
 import Gamefavorite from 'view/game_favorite';
 import GameView from 'view/game_views';
 import Footer from 'component/footer';
+import GameFooter from 'games_component/game_footer';
 import { EWinWebClient } from 'signalr/EWinWebClient';
 import Tips from 'component/tips';
 import VideoBox from 'component/video';
+import cookie from 'react-cookies'
 
 import './index.scss';
 
 const Main = () => {
+
   const location = useLocation();
   const isGameView = location.pathname.includes('/games/');
   const [getUrl, setGetUrl] = useState('');
   localStorage.setItem('currentUrl', '')
 
-
   const history = useHistory();
+
+
+  const EWinUrl = 'https://ewin.dev.mts.idv.tw';
+  localStorage.setItem('EWinUrl', EWinUrl)
+
+
+  // 生成 GUID 
+  function generate_uuidv4() {
+    var dt = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var rnd = Math.random() * 16;
+      rnd = (dt + rnd) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  const GUID = generate_uuidv4();
+  localStorage.setItem('GUID', GUID);
+
+  const Echo = 'Test_Echo';
+
+
+
+
   useEffect(() => {
     const currentPath = history.location.pathname;
     localStorage.setItem('currentUrl', currentPath);
@@ -36,49 +63,77 @@ const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [eWinWebClient, setEWinWebClient] = useState(null);
 
+
+  const [tiList, setTiList] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
+  const [timeoutSeconds, setTimeoutSeconds] = useState([]);
+  const [tabletitle, setTabletitle] = useState([]);
+
+  const [CT, setCT] = useState('');
+
+  // 在 https://ewin.dev.mts.idv.tw/ 登入抓的CT 餵進來 可以連接 eWinClient
+  // const CT = '--WgA2KquJ9iVKETbIkSfGphZyv2Dib5xS5qWeBZwJWzzaRalWd7+G1wRSZ9a6d8ggMLpMS2VjTLs1+AdvTKuqzv7qWyhAIM85f+yF4GuVcQX3fdKCNrzZR3KKs4s/pks9LeqYHCVkrzjGhEsDHzR6hQ==';
+
   useEffect(() => {
 
+    // 從 cookie 去抓 CT, 從這邊抓到的CT 無法連接 eWinClient , 
+    // CT相關參數從 public/loginEntryTest.html 
+    // 在 https://login-ewin.dev.mts.idv.tw/LoginTestTolocal.aspx 登入後帶入
 
-    const EWinUrl = 'https://ewin.dev.mts.idv.tw';
-    // CT 之後 api取得, 目前先用 測試站 token
-    const CT = '--vm7Q3nR8dVKpp7dJ9JjzT3is+w2NW3REkB2MCU0ovEPxWUe1Nl9ENrJ9BcA0MnnCyzo3gUp/OFBbrT9NgtoIRohFch435uSQD2ZhUYy19HeShlMpMddimCXtqKu3EVuiL41DnlpujUA/ubxRcCxwVg=='
-
-
-    // 生成 GUID 
-    function generate_uuidv4() {
-      var dt = new Date().getTime();
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var rnd = Math.random() * 16;
-        rnd = (dt + rnd) % 16 | 0;
-        dt = Math.floor(dt / 16);
-        return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
-      });
+    const rawCT = cookie.load('CT');
+    if (rawCT) {
+      const formattedCT = rawCT.replace(/\s+/g, ''); // 去除空格
+      setCT(formattedCT);
     }
 
-    const GUID = generate_uuidv4();
-    localStorage.setItem('GUID', GUID);
-
-    // 模擬組件載入完成後的動作
-    // 創建 EWinWebClient 實例
-    // const eWinClient = new EWinWebClient({ EWinUrl, CT, GUID });
-
-    // 設置相應的處理函數
-
-
-    // 這一塊只是demo作假用,之後可移除,底下判斷 連結websocket後 setIsLoading(false), 才是之後實際用到的
-
-    const loadingTimeout = setTimeout(() => {
-      setIsLoading(false);
+    if (CT !== '') {
       // 創建 EWinWebClient 實例
-      const eWinClient = new EWinWebClient({ EWinUrl, CT, GUID });
+      const eWinClient = new EWinWebClient({ EWinUrl, CT, GUID, Echo });
+
 
       // 設置相應的處理函數
       eWinClient.handleConnected(() => {
-        console.log('已連結 EWinHub');
+        console.log('connected');
+
+        // 監聽連線狀態
+        eWinClient.HeartBeat(Echo);
 
         eWinClient.handleReceiveMsg((Msg) => {
           console.log('處理接收訊息', Msg);
         });
+
+
+        // 獲取我的最愛
+        eWinClient.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor')
+
+        if (tiList.length === 0 || userInfo === 0) {
+
+          // 獲取使用者資料
+          eWinClient.GetUserInfo(CT, GUID, (userInfo) => {
+            if (userInfo) {
+              // console.log('User information:', userInfo);
+              setUserInfo(userInfo);
+            } else {
+              console.log('Failed to get user information.');
+            }
+          });
+
+          // 獲取LOBBY 頁面的 table list相關資料
+          eWinClient.GetTableInfoList(CT, '', 0, (tabinfo) => {
+            if (tabinfo && tabinfo.TableInfoList) {
+              setTiList(tabinfo);
+              setIsLoading(false)
+              console.log('Table information:', tabinfo);
+            } else {
+              console.error('tabInfoList is not an array:', tabinfo);
+            }
+          });
+
+
+        } else {
+          setIsLoading(false);
+        }
+
 
       });
 
@@ -96,38 +151,83 @@ const Main = () => {
       });
 
 
-
-
       // 初始化連接
       eWinClient.initializeConnection();
 
       // 將實例存儲在狀態中
       setEWinWebClient(eWinClient);
-    }, 2000);
+    }
 
-    // 清除 timeout
-    return () => clearTimeout(loadingTimeout);
 
-  }, []);
+
+
+
+  }, [CT]);
 
   return (
     <div className="wrap-box">
-      {!isGameView && (
+      {/* {!isGameView && (
         <>
-          <Header />
+          <Header userInfo={userInfo} />
           <VideoBox url={getUrl} />
-          <Footer />
+          <Footer userInfo={userInfo} />
         </>
-      )}
+      )} */}
+      {!isGameView
+        ? (
+          <>
+            <Header userInfo={userInfo} />
+            <VideoBox url={getUrl} />
+            <Footer userInfo={userInfo} />
+          </>
+        )
+        : (
+          <GameFooter userInfo={userInfo} />
+        )
+      }
       <Switch>
         <Route path='/Gamefavorite'>
           <Gamefavorite />
         </Route>
         <Route path='/games/:gameId'>
-          <GameView url={getUrl} />
+          <GameView
+            url={getUrl}
+            isLoading={isLoading}
+          />
         </Route>
         <Route path='/'>
-          <Gamelobby />
+          <Gamelobby
+            tiList={tiList}
+            userInfo={userInfo}
+            isLoading={isLoading}
+          />
+          {/* <h2>API測試</h2> */}
+          {/* {userInfo && (
+            <div style={{ color: '#fff' }}>
+              <p>Real Name: {userInfo.RealName}</p>
+              {userInfo && userInfo.Company && (
+                <p>Default Area Code: {userInfo.Company.DefaultAreaCode}</p>
+              )}
+              {userInfo && userInfo.Wallet && userInfo.Wallet.map((walletItem, index) => (
+                <div key={index}>
+                  <p>Balance: {walletItem.Balance}</p>
+                  <p>CurrencyName:　{walletItem.CurrencyName}</p>
+                  <p>Symbol: {walletItem.Symbol}</p>
+                </div>
+              ))}
+            </div>
+          )} */}
+          {/* <div>
+            <p>{tiList.ResultCode}</p>
+            <ul>
+              {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
+                <li key={index}>
+                  <p>Table Number: {i.TableNumber}</p>
+                </li>
+              ))}
+            </ul>
+          </div> */}
+
         </Route>
       </Switch>
     </div>

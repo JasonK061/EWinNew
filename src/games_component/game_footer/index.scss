@@ -1,6 +1,6 @@
-.footer-box {
+.game-footer-box {
     display: none;
-    background-color: #1d1d26;
+    background-color: #1A1A20;
     box-shadow: -1px 0 13px rgba(0, 0, 0, 0.5);
 
     &.aniFooter,
@@ -10,7 +10,7 @@
         width: 100%;
         z-index: 9999;
         transition: all 1s ease;
-        padding: 5px 10px;
+        padding: 8px 13px;
     }
 
     &.aniFooter {
@@ -30,23 +30,27 @@
 
 
 @media screen and (max-width: 1082px) {
-    .footer-box {
+    .game-footer-box {
         display: block;
+
+        .total-betting {
+            color: #DBC165;
+            position: relative;
+            font-weight: 600;
+            margin-bottom: 3px;
+
+            span.title {
+                color: #fff;
+            }
+        }
 
         .user-wallet {
             color: #DBC165;
             position: relative;
-            padding-left: 25px;
+            font-weight: 600;
 
-            &::before {
-                content: '';
-                display: block;
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                left: -1px;
-                top: 0px;
-                background: url('../../img/header/wallet.png') no-repeat center center/contain;
+            span.title {
+                color: #fff;
             }
         }
     }

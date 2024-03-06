@@ -1,5 +1,5 @@
 ﻿
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { hubConnection } from 'signalr-no-jquery';
 
 
@@ -17,13 +17,10 @@ export class EWinWebClient extends Component {
         this.CONNECTED = 1;
         this.RECONNECTING = 2;
         this.DISCONNECTED = 4;
-
-        // this.EWinUrl = null;
         this.EWinUrl = props.EWinUrl;
         this.CT = props.CT;
         this.GUID = props.GUID;
-        // this.GUID = localStorage.getItem('GUID');
-        // this.CT = null
+        this.Echo = props.Echo;
         this.conn = hubConnection();
     }
 
@@ -51,19 +48,73 @@ export class EWinWebClient extends Component {
     handleDisconnect(handle) {
         this.onDisconnect = handle;
         // this.conn.stop();
-        // console.log('已斷開')
     }
 
-    HeartBeat(CT, GUID, Echo, cb) {
-        this.EWinHub.invoke("HeartBeat", CT, GUID, Echo).done(function (o) {
+    // 監聽連線狀態
+    HeartBeat(Echo, cb) {
+        if (!this.EWinHub) {
+            console.error('EWinHub is not initialized.');
+            return;
+        }
+        console.log('Calling HeartBeat method...');
+        this.EWinHub.invoke("HeartBeat", Echo).done(function (o) {
             if (cb)
-                cb(true, o);
-            console.log('cb', cb, 'o', o, 'Echo', Echo);
+                cb(true, o)
+            console.log('HeartBeat response', Echo, 'o', o);
         }).fail(function (err) {
-            if (cb)
-                cb(false, err);
+            cb(false, err);
+            console.log('err', err);
         });
     }
+
+    // 獲取首頁相關資料
+    GetTableInfoList(CT, AreaCode, GameSetID, cb) {
+        // console.log('Calling GetTableInfoList method...');
+        this.EWinHub.invoke("GetTableInfoList", CT, AreaCode, GameSetID).done(function (o) {
+            // console.log('webClient', o)
+            if (cb) {
+                cb(o);
+            }
+        }).fail(function (err) {
+            console.error('GetTableInfoList failed:', err);
+            if (cb) {
+                cb(null);
+            }
+        });
+    }
+
+    // 獲取使用者資料
+    GetUserInfo(CT, GUID, cb) {
+        // console.log('Calling GetUserInfo method...');
+        this.EWinHub.invoke("GetUserInfo", CT, GUID).done(function (o) {
+            console.log('GetUserInfo response:', o);
+            if (cb) {
+                cb(o);
+            }
+        }).fail(function (err) {
+            console.error('GetUserInfo failed:', err);
+            if (cb) {
+                cb(null);
+            }
+        });
+    }
+
+
+    // 獲取我的最愛
+    GetUserAccountProperty(CT, GUID, PropertyName, cb) {
+        this.EWinHub.invoke("GetUserAccountProperty", CT, GUID, PropertyName).done(function (o) {
+            console.log('GetUserAccountProperty response:', o);
+            if (cb) {
+                cb(o);
+            }
+        }).fail(function (err) {
+            console.error('GetUserAccountProperty failed:', err);
+            if (cb) {
+                cb(null);
+            }
+        })
+    }
+
 
     GetSIDParam(CT, GUID, ParamName, cb) {
         this.EWinHub.invoke("GetSIDParam", CT, GUID, ParamName).done(function (o) {
@@ -138,6 +189,8 @@ export class EWinWebClient extends Component {
     };
 
 
+
+
     state() {
         return this.currentState;
     }
@@ -147,9 +200,10 @@ export class EWinWebClient extends Component {
             c.start({ withCredentials: false })
                 .done(() => {
                     // console.log("Connection started successfully!!!");
-                    console.log('GUID', this.GUID);
-                    console.log('CT', this.CT);
-                    console.log('EWinUrl', this.EWinUrl);
+                    // console.log('連線成功 獲取 GUID', this.GUID);
+                    // console.log('連線成功 獲取 CT', this.CT);
+                    // console.log('連線成功 獲取 EWinUrl', this.EWinUrl);
+                    // console.log('連線成功 獲取 onConnected', this.onConnected)
                     if (this.onConnected != null)
                         this.onConnected();
                 })
@@ -161,23 +215,23 @@ export class EWinWebClient extends Component {
                 });
         }
 
-        // var conn = hubConnection();
 
         if (this.EWinUrl != null)
             this.conn.url = this.EWinUrl + "/signalr";
         else
             this.conn.url = "/signalr";
 
+        this.EWinHub = this.conn.createHubProxy("EWinGame.Lobby");
         // this.EWinHub = this.conn.createHubProxy("EWinBaccaratClientHub");
-        this.EWinHub = this.conn.createHubProxy("TesterHub");
+        // this.EWinHub = this.conn.createHubProxy("TesterHub");
+        // this.EWinHub = this.conn.createHubProxy("EWinGameV2.Lobby");
+        // this.EWinHub = this.conn.createHubProxy("EWinBaccaratClientHub");
+        // this.EWinHub = this.conn.createHubProxy("EWinGame");
+
+
+
         this.EWinHub.on("serverMsg", this.serverMsg.bind(this));
 
-        // conn.disconnected(() => {
-        //     setTimeout(() => {
-        //         connectServer(conn);
-        //     }, 1000);
-        // });
-        //以上方法會出錯, 改成下面方式
         this.conn.disconnected(() => {
             setTimeout(() => {
                 connectServer.call(this, this.conn);
@@ -197,6 +251,8 @@ export class EWinWebClient extends Component {
             if (this.onReconnecting != null)
                 this.onReconnecting();
         });
+
+        console.log('testCT', this.CT)
 
         connectServer(this.conn);
     }

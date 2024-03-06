@@ -62,6 +62,9 @@
                         background: url('../../img/header/like.png') no-repeat center center/contain;
                     }
 
+                    &.without-mr {
+                        margin-right: 0;
+                    }
                 }
             }
 
@@ -181,7 +184,7 @@
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1082px) {
 
     .aniHeader,
     .aniHeaderAction {

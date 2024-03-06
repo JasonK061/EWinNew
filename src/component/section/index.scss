@@ -58,7 +58,7 @@
             }
 
             .game-title {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 color: #fff;
                 margin-top: 3px;
                 margin-bottom: 0;
@@ -206,7 +206,7 @@
 
                     p {
                         font-weight: bold;
-                        font-size: 1.6rem;
+                        font-size: 1.4rem;
 
                         &.game-dis {
                             font-weight: 100;
@@ -351,7 +351,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1082px) {
 
     /* 之後主選項目多再做滾動，目前先取消滾動 */
     /* .section_box {

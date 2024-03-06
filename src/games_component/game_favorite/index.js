@@ -12,8 +12,8 @@ const GameFavorite = (props) => {
         setGetNewGameId(props.url.split('/').pop())
     }, [])
 
-    const handleClick = async (gameId) => {
-        await props.toggleFavorite(gameId);
+    const handleClick = async (TableNumber) => {
+        await props.toggleFavorite(TableNumber);
         props.showMessage();
     };
 

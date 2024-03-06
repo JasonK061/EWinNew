@@ -23,7 +23,8 @@
         "start_games": "開始遊戲",
         "tie": "和",
         "type": "類型",
-        "win_lose": "上下數"
+        "win_lose": "上下數",
+        "total_betting": "總投注額"
     },
     "Setting": {
         "title": "遊戲大廳個性化",

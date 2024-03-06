@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import Logo from 'component/logo';
 import FullscreenButton from 'component/buttons/fs_btn';
@@ -17,6 +16,7 @@ import './index.scss';
 const Header = (props) => {
   const { t } = useLanguage();
   const { favorites } = props;
+  const userInfo = props.userInfo;
   const [aniHeader, setAniHeader] = useState('aniHeader');
   const [lastScrollTop, setLastScrollTop] = useState(0);
 
@@ -91,14 +91,20 @@ const Header = (props) => {
             <div className='tool-box-left'>
               {/* user-icon 部分設計沒有做相關UX, 之後有點擊互動時要抽出去寫成組件 */}
               <span><span className='user-icon' /></span>
-              <span className='forpc'><span className='user-wallet' />PHP 0</span>
+              <span className='forpc'><span className='user-wallet' />{userInfo.BetLimitCurrencyType} 0</span>
               <span className='forpc'><span>{t("Global.favorites")}({favorites.length}) </span></span>
               <span className='formb'><a className="user-favorite" href='/'></a></span>
             </div>
           ) : (
             <div className='tool-box-left'>
               <span><span className='user-icon' /></span>
-              <span className='forpc'><span className='user-wallet' />PHP 0</span>
+              <span className='forpc'>
+                <span className='user-wallet' />
+                {userInfo.BetLimitCurrencyType}&nbsp;
+                {userInfo && userInfo.Wallet && userInfo.Wallet.map((i, index) => (
+                  i.CurrencyType === userInfo.BetLimitCurrencyType ? <span className='without-mr' key={index}>{i.Balance}</span> : ''
+                ))}
+              </span>
               <span><a className="user-favorite" href='/'></a></span>
             </div>
           )}
