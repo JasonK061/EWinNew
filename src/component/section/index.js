@@ -83,7 +83,10 @@ const Section = (props) => {
                         <div className={`hover-box ${hoveredItem === i.TableNumber ? 'visible' : ''} ${moreScale}`}>
                             <span className='close-hover-box' onClick={() => { setHoveredItem(null) }}></span>
                             <div className={`games ${i.TableNumber}`}>
-
+                                {/* 獲取ImageType為1的ImageUrl */}
+                                {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
+                                    <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
+                                )}
                             </div>
                             <div className='info-box'>
                                 <p className='game-title'>
