@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import {
-    setSeconds,
-    setFirstSeconds
-} from 'store/actions';
+// import {
+//     setSeconds,
+//     setFirstSeconds
+// } from 'store/actions';
 
 import GameHeader from 'games_component/game_header';
 import GameFooterArea from 'games_component/game_footer_area';
@@ -28,7 +28,6 @@ const GameView = (props) => {
 
     // const isLoading = props.isLoading;
     const isLoading = false; // 開發時先這樣用
-
 
 
     const numDots = 8;
@@ -106,10 +105,27 @@ const GameView = (props) => {
     );
 };
 
+
+// const mapStateToProps = (state) => {
+//     // console.log('檢查state', state);
+//     // console.log('檢查state.favorites', state.root.favorites);
+//     return {
+//         seconds: state.root.seconds,
+//         firstSeconds: state.root.firstSeconds
+//     };
+// };
+
+
+// const mapDispatchToProps = {
+//     setSeconds,
+//     setFirstSeconds
+// };
+
+
 // const mapDispatchToProps = (dispatch) => ({
 //     setSeconds,
 //     setFirstSeconds
 // });
 
-// export default connect(mapDispatchToProps)(GameView);
+// export default connect(mapStateToProps, mapDispatchToProps)(GameView);
 export default GameView;

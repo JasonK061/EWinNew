@@ -68,9 +68,9 @@ export class EWinWebClient extends Component {
     }
 
     // 獲取首頁相關資料
-    GetTableInfoList(CT, AreaCode, GameSetID, cb) {
+    GetTableInfoList(CT, GUID, AreaCode, GameSetID, cb) {
         // console.log('Calling GetTableInfoList method...');
-        this.EWinHub.invoke("GetTableInfoList", CT, AreaCode, GameSetID).done(function (o) {
+        this.EWinHub.invoke("GetTableInfoList", CT, GUID, AreaCode, GameSetID).done(function (o) {
             // console.log('webClient', o)
             if (cb) {
                 cb(o);
@@ -252,7 +252,7 @@ export class EWinWebClient extends Component {
                 this.onReconnecting();
         });
 
-        console.log('testCT', this.CT)
+        // console.log('testCT', this.CT)
 
         connectServer(this.conn);
     }

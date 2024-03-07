@@ -19,7 +19,7 @@ import cookie from 'react-cookies'
 
 import './index.scss';
 
-const Main = () => {
+const Main = (props) => {
 
   const location = useLocation();
   const isGameView = location.pathname.includes('/games/');
@@ -69,22 +69,34 @@ const Main = () => {
   const [timeoutSeconds, setTimeoutSeconds] = useState([]);
   const [tabletitle, setTabletitle] = useState([]);
 
-  const [CT, setCT] = useState('');
+  useEffect(() => {
+    // 開發時設定每5分鐘打一次api來獲取有效的 CT
+    const fetchDataBySeconds = async () => {
+      try {
+        const response = await fetch(
+          'https://ewin.dev.mts.idv.tw/API/LoginAPI.asmx/UserLoginByCustomValidate?Token=1_0UE5XQQ_ca95cc8bfb4e442118d60c5b92a7af2e&LoginAccount=ddt1&LoginPassword=1234&CompanyCode=demo&UserIP='
+        );
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        const newCT = xmlDoc.getElementsByTagName('CT')[0].textContent;
 
-  // 在 https://ewin.dev.mts.idv.tw/ 登入抓的CT 餵進來 可以連接 eWinClient
-  // const CT = '--WgA2KquJ9iVKETbIkSfGphZyv2Dib5xS5qWeBZwJWzzaRalWd7+G1wRSZ9a6d8ggMLpMS2VjTLs1+AdvTKuqzv7qWyhAIM85f+yF4GuVcQX3fdKCNrzZR3KKs4s/pks9LeqYHCVkrzjGhEsDHzR6hQ==';
+        localStorage.setItem('CT', newCT)
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+
+    const intervalId = setInterval(fetchDataBySeconds, 120000);
+    fetchDataBySeconds();
+    return () => clearInterval(intervalId);
+  }, [])
 
   useEffect(() => {
 
-    // 從 cookie 去抓 CT, 從這邊抓到的CT 無法連接 eWinClient , 
-    // CT相關參數從 public/loginEntryTest.html 
-    // 在 https://login-ewin.dev.mts.idv.tw/LoginTestTolocal.aspx 登入後帶入
-
-    const rawCT = cookie.load('CT');
-    if (rawCT) {
-      const formattedCT = rawCT.replace(/\s+/g, ''); // 去除空格
-      setCT(formattedCT);
-    }
+    const CT = localStorage.getItem('CT');
 
     if (CT !== '') {
       // 創建 EWinWebClient 實例
@@ -119,7 +131,7 @@ const Main = () => {
           });
 
           // 獲取LOBBY 頁面的 table list相關資料
-          eWinClient.GetTableInfoList(CT, '', 0, (tabinfo) => {
+          eWinClient.GetTableInfoList(CT, GUID, '', 0, (tabinfo) => {
             if (tabinfo && tabinfo.TableInfoList) {
               setTiList(tabinfo);
               setIsLoading(false)
@@ -157,12 +169,9 @@ const Main = () => {
       // 將實例存儲在狀態中
       setEWinWebClient(eWinClient);
     }
+  }, [])
 
 
-
-
-
-  }, [CT]);
 
   return (
     <div className="wrap-box">

@@ -46,6 +46,7 @@ const Section = (props) => {
     const getGameName = (TableNumber, TableTimeoutSecond) => () => {
         props.getGameTitle(TableNumber);
         localStorage.setItem('getLocalTableTitle', TableNumber);
+        console.log('TableTimeoutSecond', TableTimeoutSecond);
         // props.setSeconds(TableTimeoutSecond);
         // props.setFirstSeconds(TableTimeoutSecond);
     };
@@ -53,7 +54,7 @@ const Section = (props) => {
     return (
         <div className="section_box">
             <ul>
-                {/* {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
+                {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
                     <li key={index}
                         onMouseEnter={() => setHoveredItem(i.TableNumber)}
                         onMouseLeave={mouseleave}
@@ -61,6 +62,10 @@ const Section = (props) => {
                     >
                         <span className={`${props.favorites.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
                         <div className={`games ${i.TableNumber}`}>
+                            {/* 獲取ImageType為1的ImageUrl */}
+                            {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
+                                <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
+                            )}
                             <RoadMap />
                         </div>
                         <p className='game-title'>
@@ -93,7 +98,7 @@ const Section = (props) => {
                                     </span>
                                 </p>
                                 <div className='game-start' >
-                                    <a href='/'> {i.TableTimeoutSecond} </a>
+                                    {/* <a href='/'> {i.TableTimeoutSecond} </a> */}
                                     <Link to={`/games/${i.TableNumber}`} onClick={getGameName(i.TableNumber, i.TableTimeoutSecond)}>{t("Global.start_games")}</Link>
                                 </div>
                                 <div className='game-table-wrap'>
@@ -126,9 +131,9 @@ const Section = (props) => {
                             <div className='more forpc' onClick={() => { setMoreScale('more-scale') }} />
                         </div>
                     </li>
-                ))} */}
+                ))}
                 {/* hardcode使用 */}
-                {listItems.map((item, k) => (
+                {/* {listItems.map((item, k) => (
                     <li key={k}
                         onMouseEnter={() => setHoveredItem(item.gameid)}
                         onMouseLeave={mouseleave}
@@ -195,7 +200,7 @@ const Section = (props) => {
                             <div className='more forpc' onClick={() => { setMoreScale('more-scale') }} />
                         </div>
                     </li>
-                ))}
+                ))} */}
             </ul>
         </div>
     );

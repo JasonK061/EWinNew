@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import {
-    setSeconds,
-    setFirstSeconds
-} from 'store/actions';
+// import {
+//     setSeconds,
+//     setFirstSeconds
+// } from 'store/actions';
 import './index.scss';
 
 const CountdownCircle = (props) => {
@@ -25,7 +25,8 @@ const CountdownCircle = (props) => {
 
 
 // const mapStateToProps = (state) => {
-//     console.log('檢查state', state.root.seconds);
+//     console.log('seconds', state.root.seconds);
+//     console.log('firstSeconds', state.root.firstSeconds);
 //     // console.log('檢查state.favorites', state.root.favorites);
 //     return {
 //         seconds: state.root.seconds,
