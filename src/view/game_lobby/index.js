@@ -5,7 +5,8 @@ import DefaultVedio from 'component/default_vedio';
 import Titlebar from 'component/title_bar';
 import { CustomTabs, CustomTab } from 'component/custom_tabs';
 import Loading from 'component/loading';
-
+import DemostateShow from 'component/demo/show';
+import Democontrol2 from 'component/demo/control2';
 
 import './index.scss';
 
@@ -38,6 +39,8 @@ function Gamelobby(props) {
                                                     defaultActiveKey="yourgames"
                                                 >
                                                     <CustomTab eventKey="yourgames" title="屬於您">
+                                                        <DemostateShow />
+                                                        <Democontrol2 />
                                                         <Section tiList={tiList} userInfo={userInfo} />
 
                                                         {/* hardcode demo用 */}

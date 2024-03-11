@@ -30,13 +30,31 @@ const initialState = {
     isAct3: '',
     isAct4: '',
     isAct5: '',
-    defaultClick: 'show'
+    defaultClick: 'show',
+
 };
+
+const initDemoState = {
+    demoState: 0 // demo state 初始值為0
+}
+
+export const demoReducer = (state = initDemoState, action) => {
+    switch (action.type) {
+        case 'DEMO_STATE':
+            return {
+                ...state,
+                demoState: action.payload.demoState
+            }
+        default:
+            return state;
+    }
+}
+
 
 
 // 目前需要傳遞資料的事件不多, 所以都寫在 rootReducer裡面, 如果事件變多, 最好拆分多個 reducer 比較好管理
 
-const rootReducer = (state = initialState, action) => {
+export const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'TOGGLE_FAVORITE':  // 收藏相關
             const { TableNumber } = action.payload;
@@ -260,5 +278,8 @@ const rootReducer = (state = initialState, action) => {
 };
 
 
-export default rootReducer;
+
+
+
+// export default rootReducer;
 

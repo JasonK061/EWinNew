@@ -1,3 +1,8 @@
+export const demostate = (demoState) => ({
+    type: 'DEMO_STATE',
+    payload: { demoState }
+});
+
 
 // 收藏相關
 export const toggleFavorite = (TableNumber) => async (dispatch, getState) => {

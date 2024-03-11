@@ -222,7 +222,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-
 const mapDispatchToProps = {
     toggleFavorite,
     showMessage,

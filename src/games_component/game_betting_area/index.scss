@@ -336,8 +336,18 @@
 
 @media screen and (max-width:1082px) {
     .game-betting-area {
-        bottom: auto;
-        top: 180px;
+        bottom: 15rem;
+        top: auto;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 15rem;
+            }
+        }
 
         .game-betting-area-box {
             .middle-box {
@@ -427,6 +437,19 @@
 
 @media screen and (max-width: 768px) {
     .game-betting-area {
+        top: auto;
+        bottom: 18rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 18rem;
+            }
+        }
+
         .game-betting-area-box {
             .middle-box {
                 .btn-box {
@@ -447,10 +470,22 @@
 
 @media screen and (max-width: 642px) {
     .game-betting-area {
-        top: 0;
+        top: auto;
+        bottom: 18rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 18rem;
+            }
+        }
+
 
         .game-betting-area-box {
-            margin-top: 2rem;
+
 
             .middle-box {
                 .btn-box {
@@ -471,8 +506,18 @@
 
 @media screen and (max-width:502px) {
     .game-betting-area {
-        bottom: auto;
-        top: 180px;
+        top: auto;
+        bottom: 18rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 18rem;
+            }
+        }
 
         .game-betting-area-box {
             margin-top: 0rem;
@@ -538,8 +583,18 @@
 
 @media screen and (max-width: 435px) {
     .game-betting-area {
-        bottom: auto;
-        top: 310px;
+        top: auto;
+        bottom: 18rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 18rem;
+            }
+        }
 
         .game-betting-area-box {
             margin-top: 0rem;
@@ -629,7 +684,18 @@
 @media screen and (max-width: 415px) {
     .game-betting-area {
 
-        top: 330px;
+        top: auto;
+        bottom: 18rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 18rem;
+            }
+        }
 
         .game-betting-area-box {
             margin-top: 0rem;
@@ -693,7 +759,18 @@
 
 @media screen and (max-width: 378px) {
     .game-betting-area {
-        top: 180px;
+        top: auto;
+        bottom: 20rem;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 20rem;
+            }
+        }
 
         .game-betting-area-box {
             margin-top: 0rem;
@@ -754,8 +831,18 @@
 
 @media screen and (max-width: 340px) {
     .game-betting-area {
-        bottom: auto;
-        top: 180px;
+        bottom: 15rem;
+        top: auto;
+
+        @keyframes anigamebettingareain {
+            0% {
+                bottom: -150px;
+            }
+
+            100% {
+                bottom: 15rem;
+            }
+        }
 
         .game-betting-area-box {
             margin-top: 0rem;
