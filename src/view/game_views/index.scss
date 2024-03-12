@@ -36,7 +36,17 @@
     }
 }
 
-@media screen and (max-width: 642px) {
+@media screen and (max-width: 897px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 100vh;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 668px) {
     .game-view-wrap {
         .game-view-box {
             .game-content {
@@ -60,7 +70,7 @@
     .game-view-wrap {
         .game-view-box {
             .game-content {
-                height: 290px;
+                height: 45vh;
             }
         }
     }
@@ -70,7 +80,17 @@
     .game-view-wrap {
         .game-view-box {
             .game-content {
-                height: 180px;
+                height: 32vh;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:361px) {
+    .game-view-wrap {
+        .game-view-box {
+            .game-content {
+                height: 28vh;
             }
         }
     }

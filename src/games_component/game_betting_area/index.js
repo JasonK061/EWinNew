@@ -321,6 +321,10 @@ const GameBettingArea = (props) => {
             canvas.width = 502;
             canvas.height = 142;
             widthForPC();
+        } else if ((windowWidth < 897)) {
+            canvas.width = 612;
+            canvas.height = 173;
+            widthForPC();
         } else {
             canvas.width = 714;
             canvas.height = 202;

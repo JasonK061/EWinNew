@@ -59,7 +59,7 @@ const GameChipsButton = ((props) => {
         props.setIsAnimationActive5('');
 
         // 橫版切換需收回
-        if (windowWidth === 640 || windowWidth === 667 || windowWidth === 568) {
+        if (windowWidth === 640 || windowWidth === 667 || windowWidth === 568 || windowWidth === 896) {
             props.setDefaultClick('show');
         }
 

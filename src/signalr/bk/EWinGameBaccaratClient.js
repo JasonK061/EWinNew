@@ -45,7 +45,7 @@
                 cb(false, err);
         });
     };
-  
+
     //#region 屬性使用到的Refrence Type
 
     /**
@@ -221,17 +221,23 @@
      * BA=百家樂
      * Status 狀態碼
      * Close=關閉 ,Shuffling=洗牌, NoService=沒有服務, AccidentPending=事故暫停
-     * @param {string} MagnifierType 0=關閉開牌放大鏡/1=啟動開牌放大鏡
+     * @param {number} MagnifierType 0=關閉開牌放大鏡/1=啟動開牌放大鏡
+     * @param {string} MagnifierSetting 放大鏡相關資訊 json String
+     * ex {"x":0.5025,"y":0.62,"w":0.3475,"h":0.18,"rate":1.5}
+     * 使用canvas進行放大鏡功能，畫布大小位置=整個video
+     * 資訊提共位置與放大比例，iphone => 從video串流，按照資訊繪製放大的結果，其他 => 直接參考video區塊，按照資訊繪製放大後的結果
+     * 後續再提供相關程式碼     
+     * 
      * @param {string} AreaCode 賭桌所在區域
-     * @param {string} TableTimeoutSecond 賭桌設定的投注時間
-     * @param {string} RemainingSecond 剩餘時間
+     * @param {number} TableTimeoutSecond 賭桌設定的投注時間
+     * @param {number} RemainingSecond 剩餘時間
      * @param {string} RoundInfo ex: 1543-12  靴號-局號  
-     * @param {string} DrawCardAnimType 發牌效果顯示方式(0=關閉/1=單張顯示/2=2閒2庄)
-     * @param {string} RoundState -1=尚未建立/0=新建/1=允許下注/2=停止下注/3=開牌結算/4=取消本局/5=暫停/6=本桌尚未準備好/7=本桌完場/8=本桌取消
-     * @param {string} IsResultConfirm 最新一局的局開牌結果是否已經確認
-     * @param {string} RoundID 目前局數的局數ID
-     * @param {string} ReservedTable 是否是保留桌
-     * @param {string} LastRound 是否已經最後一局
+     * @param {number} DrawCardAnimType 發牌效果顯示方式(0=關閉/1=單張顯示/2=2閒2庄)
+     * @param {number} RoundState -1=尚未建立/0=新建/1=允許下注/2=停止下注/3=開牌結算/4=取消本局/5=暫停/6=本桌尚未準備好/7=本桌完場/8=本桌取消
+     * @param {boolean} IsResultConfirm 最新一局的局開牌結果是否已經確認
+     * @param {number} RoundID 目前局數的局數ID
+     * @param {boolean} ReservedTable 是否是保留桌
+     * @param {boolean} LastRound 是否已經最後一局
      * @param {string} ShoeResult 靴結果總結 
      * 1=莊(0001)
      * 2=閒(0010)
@@ -1183,8 +1189,6 @@
 
     //#endregion
 
-
-
     this.state = function () {
         return currentState;
     };
@@ -1212,7 +1216,9 @@
             conn.url = "/signalr";
 
         EWinHub = conn.createHubProxy("EWinGame.Baccarat");
-        EWinHub.on("serverMsg", serverMsg);
+        EWinHub.on("NotifyMsg", serverMsg);
+        
+
 
         conn.disconnected(function () {
             setTimeout(function () {
@@ -1250,18 +1256,107 @@
         }
     }
 
+    //#region Server推送通知 (onReceive)
+
+    //Server推送通知 (onReceive)
+
+    /**
+     * 通知，參數基本Basic
+     * @typedef {Object} NotifyMsgArgInheritsBase
+     */
+
+    //Basic
+    /**
+     * 通知目前設計為通知Client端，
+     * 做對應Type相關資料的刷新，
+     * 僅推送撈取用的鍵值
+     * 通知，資料結構
+     * 
+     * @typedef {Object} NotifyMsg
+     * @param {string} Id Timestamp-Rnd
+     * @param {string} Type 通知類型
+     * @param {NotifyMsgArgInheritsBase} Args 工單狀態，-1=尚未建立(暫存)/0=建立/1=進行中/2=暫停/3=完場/4=結算完成/5=取消
+     */
+
+    //#region Args種類
+
+    //Type=HeartBeat
+    /**
+    * HeartBeat
+    * @typedef {NotifyMsgArgInheritsBase} HeartBeatArg
+    * @param {string} Echo Echo
+    */
+
+    //Type=GreatRoad
+    /**
+    * 好路通知
+    * @typedef {NotifyMsgArgInheritsBase} GreatRoadArg
+    * @param {string} TableNumber 桌號
+    */
+
+    //Type=GuestEntry
+    /**
+    * 有玩家進入桌台(可忽略)
+    * @typedef {NotifyMsgArgInheritsBase} GuestEntryArg
+    * @param {string} TableNumber 桌號
+    * @param {number} GameSetID 工單號碼
+    */
+
+    //Type=GuestLeave
+    /**
+    * 有玩家離開桌台(可忽略)
+    * @typedef {NotifyMsgArgInheritsBase} GuestLeaveArg
+    * @param {string} TableNumber 桌號
+    * @param {number} GameSetID 工單號碼
+    */
+
+    //Type=GameSetChange
+    /**
+    * 工單狀態改變
+    * @typedef {NotifyMsgArgInheritsBase} GameSetChangeArg
+    * @param {number} GameSetID 工單號碼
+    */
+
+    /**
+    * 投注狀態改變
+    * @typedef {NotifyMsgArgInheritsBase} BetChangeArg
+    * @param {string} TableNumber 桌號
+    */
+
+
+    /**
+    * 桌台狀態改變
+    * @typedef {NotifyMsgArgInheritsBase} TableChangeArg
+    * @param {string} TableNumber 桌號
+    */
+
+
+    /**
+    * 瞇牌資訊推送
+    * 僅有最高投注的人可瞇牌，其他人根據最高投注者的操作去同步資訊]
+    * @typedef {NotifyMsgArgInheritsBase} PeekingCardArg
+    * @param {string} TableNumber 桌號
+    * @param {string} Action 動作 S=顯示，T=觸碰，M=移動，R=釋放
+    * @param {string} GameSetID 工單號
+    * @param {string} CurrencyType 幣別
+    * @param {string} CardId 撲克牌ID
+    * @param {number} TouchX 觸摸(起始)的x位置
+    * @param {number} TouchY 觸摸(起始)的y位置
+    * @param {number} MoveX 移動的x位置
+    * @param {number} MoveY 移動的y位置
+    */
+
+    //#endregion
+
+
+    //#endregion
+
     function serverMsg(msg) {
         var o = getJSON(msg);
 
-        if (o != null) {
-            /*
-        ' JSON format:
-        ' {
-        '    cmd: <cmd>,
-        '    data: <data>
-        ' }
-            */
+        //o的資料結構，可參考上方
 
+        if (o != null) {        
             if (onReceive != null)
                 onReceive(o);
         }

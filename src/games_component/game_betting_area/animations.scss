@@ -7,7 +7,7 @@
                         position: absolute;
                         left: 1px;
                         bottom: 24px;
-                        transition: all 1s ease-in;
+                        // transition: all 3s ease;
 
                         img {
                             width: 40px;
@@ -20,7 +20,7 @@
                             bottom: 0;
                             z-index: 1;
                             animation-name: anichips1;
-                            animation-duration: 1s;
+                            animation-duration: 1.4s;
                             animation-timing-function: ease;
                         }
 
@@ -30,7 +30,7 @@
                             bottom: 5px;
                             z-index: 2;
                             animation-name: anichips2;
-                            animation-duration: 1s;
+                            animation-duration: 1.4s;
                             animation-timing-function: ease;
                         }
 
@@ -41,7 +41,7 @@
                             bottom: 10px;
                             z-index: 3;
                             animation-name: anichips3;
-                            animation-duration: 1s;
+                            animation-duration: 1.4s;
                             animation-timing-function: ease;
                         }
 
@@ -91,7 +91,7 @@
                         &.chipsId-6.active::before,
                         &.chipsId-7.active::before {
                             content: '';
-                            animation-duration: 0.7s;
+                            animation-duration: 0.3s;
                             animation-timing-function: ease-in;
                             width: 55px;
                             height: 55px;
@@ -1677,6 +1677,19 @@
                 }
             }
 
+        }
+    }
+}
+
+@media screen and (max-width: 897px) {
+    .btn-box {
+        &.isAct {
+            .chips-animation-box {
+                img {
+                    width: 32px !important;
+                    height: 32px !important;
+                }
+            }
         }
     }
 }

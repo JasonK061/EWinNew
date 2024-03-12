@@ -12,7 +12,7 @@ import Gamefavorite from 'view/game_favorite';
 import GameView from 'view/game_views';
 import Footer from 'component/footer';
 import GameFooter from 'games_component/game_footer';
-import { EWinWebClient } from 'signalr/EWinWebClient';
+import { EWinGameLobbyClient } from 'signalr/EWinGameLobbyClient';
 import Tips from 'component/tips';
 import VideoBox from 'component/video';
 import cookie from 'react-cookies'
@@ -100,7 +100,7 @@ const Main = (props) => {
 
     if (CT !== '') {
       // 創建 EWinWebClient 實例
-      const eWinClient = new EWinWebClient({ EWinUrl, CT, GUID, Echo });
+      const eWinClient = new EWinGameLobbyClient({ EWinUrl, CT, GUID, Echo });
 
 
       // 設置相應的處理函數
