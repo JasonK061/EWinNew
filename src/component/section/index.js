@@ -44,7 +44,7 @@ const Section = (props) => {
     const eWinGameLobbyClient = new EWinGameLobbyClient({ EWinUrl, CT, GUID, Echo });
     // 初始化連接
     eWinGameLobbyClient.initializeConnection();
-    
+
     const [isMuted, setIsMuted] = useState(false);
 
     const history = useHistory();
@@ -65,7 +65,7 @@ const Section = (props) => {
                 Favos.push(TableNumber);
             }
         }
-        
+
         eWinGameLobbyClient.SetUserAccountProperty(CT, GUID, "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
             if (success) {
                 console.log("SetUserAccountProperty", o);
@@ -151,7 +151,7 @@ const Section = (props) => {
                                     <Link to={`/games/${i.TableNumber}`} onClick={getGameName(i.TableNumber, i.TableTimeoutSecond)}>{t("Global.start_games")}</Link>
                                 </div>
                                 <div className='game-table-wrap'>
-                                    <RoadMap />
+                                    <RoadMap tiList={tiList} />
                                 </div>
                                 <p className='game-dis'>
                                     {i.Status}
