@@ -112,7 +112,7 @@ const Section = (props) => {
                             {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
                                 <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
                             )}
-                            <RoadMap />
+                            <RoadMap tiList={tiList} />
                         </div>
                         <p className='game-title'>
                             {i.TableNumber}
