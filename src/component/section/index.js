@@ -30,7 +30,7 @@ const Section = (props) => {
     const Favos = props.favorites || [];
 
     const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
-    
+
     const [isMuted, setIsMuted] = useState(false);
 
     const history = useHistory();
@@ -137,7 +137,7 @@ const Section = (props) => {
                                     <Link to={`/games/${i.TableNumber}`} onClick={getGameName(i.TableNumber, i.TableTimeoutSecond)}>{t("Global.start_games")}</Link>
                                 </div>
                                 <div className='game-table-wrap'>
-                                    <RoadMap />
+                                    <RoadMap tiList={tiList} />
                                 </div>
                                 <p className='game-dis'>
                                     {i.Status}
