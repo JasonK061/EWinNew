@@ -13,7 +13,7 @@ import {
 import RoadMap from 'component/road_map';
 import SimilarGames from 'component/similar_games';
 import './index.scss';
-import { EWinGameLobbyClient } from 'signalr/EWinGameLobbyClient';
+import { EWinGameLobbyClient } from 'signalr/bk/EWinGameLobbyClient';
 
 // 生成 GUID 
 function generate_uuidv4() {
@@ -37,13 +37,9 @@ const Section = (props) => {
 
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
-    const Echo = 'Test_Echo';
-    const GUID = generate_uuidv4();
     const Favos = props.favorites || [];
 
-    const eWinGameLobbyClient = new EWinGameLobbyClient({ EWinUrl, CT, GUID, Echo });
-    // 初始化連接
-    eWinGameLobbyClient.initializeConnection();
+    const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
     const [isMuted, setIsMuted] = useState(false);
 
@@ -66,7 +62,8 @@ const Section = (props) => {
             }
         }
 
-        eWinGameLobbyClient.SetUserAccountProperty(CT, GUID, "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
+        eWinGameLobbyClient.SetUserAccountProperty(CT, generate_uuidv4(), "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
+
             if (success) {
                 console.log("SetUserAccountProperty", o);
             }
