@@ -14,17 +14,7 @@ import RoadMap from 'component/road_map';
 import SimilarGames from 'component/similar_games';
 import './index.scss';
 import { EWinGameLobbyClient } from 'signalr/bk/EWinGameLobbyClient';
-
-// 生成 GUID 
-function generate_uuidv4() {
-    var dt = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var rnd = Math.random() * 16;
-        rnd = (dt + rnd) % 16 | 0;
-        dt = Math.floor(dt / 16);
-        return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
-    });
-}
+import { generateUUIDv4 } from 'utils/guid';
 
 const Section = (props) => {
     const { t } = useLanguage();
@@ -62,7 +52,7 @@ const Section = (props) => {
             }
         }
         
-        eWinGameLobbyClient.SetUserAccountProperty(CT, generate_uuidv4(), "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
+        eWinGameLobbyClient.SetUserAccountProperty(CT, generateUUIDv4(), "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
             if (success) {
                 console.log("SetUserAccountProperty", o);
             }

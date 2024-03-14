@@ -15,37 +15,29 @@ import RoadMap from 'component/road_map';
 import SimilarGames from 'component/similar_games';
 import { EWinGameLobbyClient } from 'signalr/bk/EWinGameLobbyClient';
 import Loading from 'component/loading';
+import { generateUUIDv4 } from 'utils/guid';
 // 收藏頁面還沒設計好, 先開版之後再客制
-
-// 生成 GUID 
-function generate_uuidv4() {
-    var dt = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var rnd = Math.random() * 16;
-        rnd = (dt + rnd) % 16 | 0;
-        dt = Math.floor(dt / 16);
-        return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
-    });
-}
 
 const Gamefavorite = (props) => {
     // const { favorites } = props;
     const isLoading = props.isLoading;
-    const [getLocalFavorites, setGetLocalFavorites] = useState([]);
+    //const [getLocalFavorites, setGetLocalFavorites] = useState([]);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [moreScale, setMoreScale] = useState('');
-    const [tiList, setTiList] = useState([]);
+    const tiList = props.tiList || [];
     const userInfo = props.userInfo || [];
-    const localStorageFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
+    const localStorageFavorites = localStorage.getItem('favorites') || '';
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
-    const GUID = generate_uuidv4();
+    const GUID = generateUUIDv4();
     const Favos = props.favorites || [];
     const { t } = useLanguage();
     const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
-    setGetLocalFavorites(localStorageFavorites);
+    const toggleMute = async (TableNumber) => {
+        await props.toggleMute(TableNumber);
+        // props.showMuteMessage();
+    };
 
     const handleClick = async (TableNumber) => {
         await props.toggleFavorite(TableNumber);
@@ -80,11 +72,6 @@ const Gamefavorite = (props) => {
         setMoreScale('');
     }
 
-    const toggleMute = async (TableNumber) => {
-        await props.toggleMute(TableNumber);
-        // props.showMuteMessage();
-    };
-
     const getGameName = (TableNumber, TableTimeoutSecond) => () => {
         props.getGameTitle(TableNumber);
         localStorage.setItem('getLocalTableTitle', TableNumber);
@@ -97,13 +84,12 @@ const Gamefavorite = (props) => {
         <div>
             {
                 isLoading ? (<Loading />) : (
-                    <div>
+                    <div className="section_box">
                         <h2>Favorites</h2>
-                        <p>Number of Favorites: {getLocalFavorites.length}</p>
+                        {/*                <p>Number of Favorites: {localStorageFavorites.length}</p>*/}
                         <ul>
                             {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => {
-                                if (getLocalFavorites.includes(i.TableNumber)) {
-
+                                if (localStorageFavorites.includes(i.TableNumber)) {
                                     < li key={index}
                                         onMouseEnter={() => setHoveredItem(i.TableNumber)}
                                         onMouseLeave={mouseleave}
@@ -195,4 +181,11 @@ const Gamefavorite = (props) => {
     )
 }
 
-export default Gamefavorite;
+const mapStateToProps = (state) => {
+    return {
+        favorites: state.root.favorites || [],
+        mutes: state.root.mutes || []
+    };
+};
+
+export default connect(mapStateToProps)(Gamefavorite);
