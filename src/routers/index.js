@@ -101,7 +101,7 @@ const Main = () => {
         });
 
         // 獲取我的最愛
-        instance.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor');
+        // instance.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor');
 
         if (tiList.length === 0 || userInfo === 0) {
 
@@ -174,9 +174,10 @@ const Main = () => {
       }
       <Switch>
         <Route path='/Gamefavorite'>
-                  <Gamefavorite
-                      tiList={tiList}
-                      isLoading={isLoading} />
+          <Gamefavorite
+            tiList={tiList}
+            userInfo={userInfo}
+            isLoading={isLoading} />
         </Route>
         <Route path='/games/:gameId'>
           <GameView
