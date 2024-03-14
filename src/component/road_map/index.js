@@ -15,7 +15,6 @@ const RoadMap = (props) => {
         if (props.tiList && props.tiList.TableInfoList) {
             const shoeResults = props.tiList.TableInfoList.map(info => info.ShoeResult);
             setBackendData(shoeResults);
-            console.log('shoeResults', shoeResults);
         }
     }, [props.tiList]);
 
