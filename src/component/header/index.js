@@ -7,7 +7,6 @@ import SettingButton from 'component/buttons/setting_btn';
 import BettingHistory from 'component/buttons/betting_history_btn';
 import GoodTrendNotice from 'component/buttons/good_trend_notice_btn';
 import { useLanguage } from 'hooks';
-import Democontrol1 from 'component/demo/control1';
 
 import './index.scss';
 
@@ -108,7 +107,6 @@ const Header = (props) => {
                 ))}
               </span>
               <span><a className="user-favorite" href='/'></a></span>
-              <span><Democontrol1 /> </span>
             </div>
           )}
         </div>
