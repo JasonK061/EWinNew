@@ -7,6 +7,8 @@ import store from 'store/store';
 import 'local/i18n';
 import { LanguageProvider } from 'hooks';
 
+import { CookiesProvider } from 'react-cookie';
+
 import 'global_css/default.css';
 import 'global_css/grid.css';
 import 'global_css/media.css';
@@ -19,7 +21,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <LanguageProvider>
-        <Layout />
+        <CookiesProvider defaultSetOptions={{ path: '/' }}>
+          <Layout />
+        </CookiesProvider>
       </LanguageProvider>
     </Provider>
   </React.StrictMode>
