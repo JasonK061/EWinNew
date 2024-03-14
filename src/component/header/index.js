@@ -107,7 +107,7 @@ const Header = (props) => {
                   i.CurrencyType === userInfo.BetLimitCurrencyType ? <span className='without-mr' key={index}>{i.Balance}</span> : ''
                 ))}
               </span>
-              <span><a className="user-favorite" href='/'></a></span>
+                              <span><a className="user-favorite" href='/Gamefavorite'></a></span>
               <span><Democontrol1 /> </span>
             </div>
           )}

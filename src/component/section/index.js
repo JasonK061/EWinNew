@@ -13,6 +13,18 @@ import {
 import RoadMap from 'component/road_map';
 import SimilarGames from 'component/similar_games';
 import './index.scss';
+import { EWinGameLobbyClient } from 'signalr/EWinGameLobbyClient';
+
+// 生成 GUID 
+function generate_uuidv4() {
+    var dt = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var rnd = Math.random() * 16;
+        rnd = (dt + rnd) % 16 | 0;
+        dt = Math.floor(dt / 16);
+        return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
+    });
+}
 
 const Section = (props) => {
     const { t } = useLanguage();
@@ -22,12 +34,46 @@ const Section = (props) => {
     const tiList = props.tiList || [];
     const userInfo = props.userInfo || [];
 
+
+    const EWinUrl = localStorage.getItem('EWinUrl');
+    const CT = localStorage.getItem('CT');
+    const Echo = 'Test_Echo';
+    const GUID = generate_uuidv4();
+    const Favos = props.favorites || [];
+
+    const eWinGameLobbyClient = new EWinGameLobbyClient({ EWinUrl, CT, GUID, Echo });
+    // 初始化連接
+    eWinGameLobbyClient.initializeConnection();
+    
     const [isMuted, setIsMuted] = useState(false);
 
     const history = useHistory();
 
     const handleClick = async (TableNumber) => {
         await props.toggleFavorite(TableNumber);
+
+        if (Favos.includes(TableNumber)) {
+            var index = Favos.indexOf(TableNumber);
+
+            if (index > -1) {
+                Favos.splice(index, 1);
+            }
+        } else {
+            var index = Favos.indexOf(TableNumber);
+
+            if (index == -1) {
+                Favos.push(TableNumber);
+            }
+        }
+        
+        eWinGameLobbyClient.SetUserAccountProperty(CT, GUID, "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
+            if (success) {
+                console.log("SetUserAccountProperty", o);
+            }
+        });
+
+        console.log("Favos", Favos);
+
         props.showMessage();
     };
 
@@ -208,8 +254,6 @@ const Section = (props) => {
         </div>
     );
 };
-
-
 
 const mapStateToProps = (state) => {
     // console.log('檢查state', state);
