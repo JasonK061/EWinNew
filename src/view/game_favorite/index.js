@@ -19,15 +19,12 @@ import { generateUUIDv4 } from 'utils/guid';
 // 收藏頁面還沒設計好, 先開版之後再客制
 
 function Gamefavorite(props) {
-    // const { favorites } = props;
     const isLoading = props.isLoading;
-    //const [getLocalFavorites, setGetLocalFavorites] = useState([]);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [moreScale, setMoreScale] = useState('');
-    // const tiList = props.tiList || [];
+    const [strFavo, setstrFavo] = useState('');
     const tiList = props.tiList;
     const userInfo = props.userInfo;
-    const localStorageFavorites = localStorage.getItem('favorites') || '';
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
     const GUID = generateUUIDv4();
@@ -40,6 +37,15 @@ function Gamefavorite(props) {
         // props.showMuteMessage();
     };
 
+    useEffect(() => {
+        eWinGameLobbyClient.GetUserAccountProperty(CT, GUID, "EWinGame.Favor", function (o) {
+            if (o) {
+                if (o.ResultCode == 0) {
+                    setstrFavo(o.PropertyValue);
+                }
+            }
+        });
+    }, [])
 
     const handleClick = async (TableNumber) => {
         await props.toggleFavorite(TableNumber);
@@ -87,10 +93,9 @@ function Gamefavorite(props) {
             {
                 isLoading ? (<Loading />) : (
                     <div className="section_box">
-                        <h2>Favorites {props.favorites} </h2>
+                        {/*<h2>Favorites {props.favorites} </h2>*/}
                         <ul>
-                            {tiList && tiList.TableInfoList && tiList.TableInfoList.filter(i => localStorageFavorites.includes(i.TableNumber)).map((i, index) => (
-                                // {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
+                            {tiList && tiList.TableInfoList && tiList.TableInfoList.filter(i => strFavo.includes(i.TableNumber)).map((i, index) => (
                                 <li key={index}
                                     onMouseEnter={() => setHoveredItem(i.TableNumber)}
                                     onMouseLeave={mouseleave}
@@ -174,93 +179,6 @@ function Gamefavorite(props) {
                             ))}
 
                         </ul>
-                        {/*                <p>Number of Favorites: {localStorageFavorites.length}</p>*/}
-                        {/* <ul>
-                            {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => {
-                                if (localStorageFavorites.includes(i.TableNumber)) {
-                                    < li key={index}
-                                        onMouseEnter={() => setHoveredItem(i.TableNumber)}
-                                        onMouseLeave={mouseleave}
-                                        className='li-box'
-                                    >
-                                        <span className='has-favorites' />
-                                        <div className={`games ${i.TableNumber}`}>
-
-                                            {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
-                                                <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
-                                            )}
-                                            <RoadMap />
-                                        </div>
-                                        <p className='game-title'>
-                                            {i.TableNumber}
-                                        </p>
-                                        <p className='game-wallet'>
-                                            <span>{userInfo.BetLimitCurrencyType}</span>
-                                            <span>
-                                                {userInfo && userInfo.Wallet && userInfo.Wallet.map((i, index) => (
-                                                    i.CurrencyType === userInfo.BetLimitCurrencyType ? <span className='without-mr' key={index}>{Math.floor(i.Balance)}</span> : ''
-                                                ))}
-                                            </span>
-                                        </p>
-
-                                        <div className={`hover-box ${hoveredItem === i.TableNumber ? 'visible' : ''} ${moreScale}`}>
-                                            <span className='close-hover-box' onClick={() => { setHoveredItem(null) }}></span>
-                                            <div className={`games ${i.TableNumber}`}>
-
-                                                {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
-                                                    <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
-                                                )}
-                                            </div>
-                                            <div className='info-box'>
-                                                <p className='game-title'>
-                                                    {i.TableNumber}
-                                                </p>
-                                                <p className='game-wallet'>
-                                                    <span>{userInfo.BetLimitCurrencyType}</span>
-                                                    <span>
-                                                        {userInfo && userInfo.Wallet && userInfo.Wallet.map((i, index) => (
-                                                            i.CurrencyType === userInfo.BetLimitCurrencyType ? <span className='without-mr' key={index}>{i.Balance}</span> : ''
-                                                        ))}
-                                                    </span>
-                                                </p>
-                                                <div className='game-start' >
-
-                                                    <Link to={`/games/${i.TableNumber}`} onClick={getGameName(i.TableNumber, i.TableTimeoutSecond)}>{t("Global.start_games")}</Link>
-                                                </div>
-                                                <div className='game-table-wrap'>
-                                                    <RoadMap />
-                                                </div>
-                                                <p className='game-dis'>
-                                                    {i.Status}
-                                                </p>
-
-                                                {moreScale === 'more-scale'
-                                                    ?
-                                                    <div className='show-similar-games forpc'>
-                                                        <p>{t("Global.similar_ganes")}</p>
-                                                        <SimilarGames />
-                                                    </div>
-                                                    : ''
-                                                }
-
-                                                <div className='show-similar-games formb'>
-                                                    <p>{t("Global.similar_ganes")}</p>
-                                                    <SimilarGames />
-                                                </div>
-
-                                                <div className='favorites-box'>
-                                                    <span onClick={() => toggleMute(i.TableNumber)} className={`video-control ${props.mutes.includes(i.TableNumber) ? 'video-unmute' : 'video-mute'}`} />
-                                                    <span onClick={() => handleClick(i.TableNumber)} className='remove-to-favorites' />
-
-                                                </div>
-                                            </div>
-                                            <div className='more forpc' onClick={() => { setMoreScale('more-scale') }} />
-                                        </div>
-                                    </li>
-                                }
-                            })
-                            }
-                        </ul> */}
                     </div >
                 )
             }
