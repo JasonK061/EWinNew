@@ -17,6 +17,7 @@ import VideoBox from 'component/video';
 // import cookie from 'react-cookies';
 import { useCookies } from 'react-cookie';
 import { EWinGameLobbyClient } from 'signalr/bk/EWinGameLobbyClient';
+import { generateUUIDv4 } from 'utils/guid';
 
 import './index.scss';
 
@@ -35,19 +36,7 @@ const Main = () => {
 
 
   // 生成 GUID 
-  function generate_uuidv4() {
-    var dt = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var rnd = Math.random() * 16;
-      rnd = (dt + rnd) % 16 | 0;
-      dt = Math.floor(dt / 16);
-      return (c === 'x' ? rnd : (rnd & 0x3 | 0x8)).toString(16);
-    });
-  }
-
-  const GUID = generate_uuidv4();
-  localStorage.setItem('GUID', GUID);
-
+  const GUID = generateUUIDv4();
   const Echo = 'Test_Echo';
 
 
