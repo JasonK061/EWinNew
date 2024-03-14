@@ -1,52 +1,60 @@
-﻿var EWinGameBaccaratClient = function (CT) {
-    var EWinHub;
-    var currentState = 4;  //0=connecting, 1=connected, 2=reconnecting, 4=disconnected
-    var onReceive;
-    var onReconnected;
-    var onReconnecting;
-    var onConnected;
-    var onDisconnect;
-    const CONNECTING = 0;
-    const CONNECTED = 1;
-    const RECONNECTING = 2;
-    const DISCONNECTED = 4;
+﻿import { hubConnection } from 'signalr-no-jquery';
+export class EWinGameBaccaratClient {
+    constructor(CT, eWinUrl) {
+        this.conn = $.hubConnection();
+        this.CT = CT;
+        if (eWinUrl) {
+            this.EWinUrl = eWinUrl;
+        }
+    }
 
-    this.EWinUrl = null;
+    CT;
+    EWinHub;
+    currentState = 4;  //0=connecting, 1=connected, 2=reconnecting, 4=disconnected
+    onReceive;
+    onReconnected;
+    onReconnecting;
+    onConnected;
+    onDisconnect;
+    CONNECTING = 0;
+    CONNECTED = 1;
+    RECONNECTING = 2;
+    DISCONNECTED = 4;
+    EWinUrl = null;
+    conn;
 
-    this.handleReceiveMsg = function (handle) {
-        onReceive = handle;
-    };
+    handleReceiveMsg(handle) {
+        this.onReceive = handle;
+    }
 
-    this.handleReconnected = function (handle) {
-        onReconnected = handle;
-    };
+    handleReconnected(handle) {
+        this.onReconnected = handle;
+    }
 
-    this.handleReconnecting = function (handle) {
-        onReconnecting = handle;
-    };
+    handleReconnecting(handle) {
+        this.onReconnecting = handle;
+    }
 
-    this.handleConnected = function (handle) {
-        onConnected = handle;
-    };
+    handleConnected(handle) {
+        this.onConnected = handle;
+    }
 
-    this.handleDisconnect = function (handle) {
-        onDisconnect = handle;
-    };
+    handleDisconnect(handle) {
+        this.onDisconnect = handle;
+    }
 
     //#region 通用API
-
-
-    this.HeartBeat = function (Echo, cb) {
-        EWinHub.invoke("HeartBeat", Echo).done(function (o) {
+    HeartBeat(Echo, cb) {
+        this.EWinHub.invoke("HeartBeat", Echo).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
             if (cb)
                 cb(false, err);
         });
-    };
+    }
 
-    //#region 屬性使用到的Refrence Type
+    //#region 屬性使用到的 Refrence Type
 
     /**
      * 用戶屬性
@@ -180,7 +188,7 @@
      * @param {string} OrderPlayerPair 閑對投注額
      */
 
-    //#endregion
+    //#endregion 
 
     //#region 回傳
 
@@ -332,8 +340,8 @@
       *       
       * @returns {void}
       */
-    this.SetPeekingCard = function (CT, GUID, GameSetID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, CardId, Action, x, y, cb) {
-        EWinHub.invoke("SetPeekingCard", CT, GUID, GameSetID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, CardId, Action, x, y).done(function (o) {
+    SetPeekingCard(CT, GUID, GameSetID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, CardId, Action, x, y, cb) {
+        this.EWinHub.invoke("SetPeekingCard", CT, GUID, GameSetID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, CardId, Action, x, y).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -362,8 +370,8 @@
      * 
      * @returns {void}
      */
-    this.AddSubscribe = function (CT, GUID, RoadMapNumberList, cb) {
-        EWinHub.invoke("AddSubscribe", CT, GUID, RoadMapNumberList).done(function (o) {
+    AddSubscribe(CT, GUID, RoadMapNumberList, cb) {
+        this.EWinHub.invoke("AddSubscribe", CT, GUID, RoadMapNumberList).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -390,8 +398,8 @@
      * 
      * @returns {void}
      */
-    this.ClearSubscribe = function (CT, GUID, cb) {
-        EWinHub.invoke("ClearSubscribe", CT, GUID).done(function (o) {
+    ClearSubscribe(CT, GUID, cb) {
+        this.EWinHub.invoke("ClearSubscribe", CT, GUID).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -425,8 +433,8 @@
     * 
     * @returns {void}
     */
-    this.RefreshSubscribe = function (CT, GUID, GameSetID, RoadMapNumber, RefreshStreamType, cb) {
-        EWinHub.invoke("RefreshSubscribe", CT, GUID, GameSetID, RoadMapNumber, RefreshStreamType).done(function (o) {
+    RefreshSubscribe(CT, GUID, GameSetID, RoadMapNumber, RefreshStreamType, cb) {
+        this.EWinHub.invoke("RefreshSubscribe", CT, GUID, GameSetID, RoadMapNumber, RefreshStreamType).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -461,8 +469,8 @@
     * 
     * @returns {void}
     */
-    this.UserAccountGetBetLimitListByRoadMap = function (CT, GUID, RoadMapNumber, CurrencyType, GameSetID, cb) {
-        EWinHub.invoke("UserAccountGetBetLimitListByRoadMap", CT, GUID, DeviceGUID, RoadMapNumber, CurrencyType, GameSetID).done(function (o) {
+    UserAccountGetBetLimitListByRoadMap(CT, GUID, RoadMapNumber, CurrencyType, GameSetID, cb) {
+        this.EWinHub.invoke("UserAccountGetBetLimitListByRoadMap", CT, GUID, DeviceGUID, RoadMapNumber, CurrencyType, GameSetID).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -493,8 +501,8 @@
     * @returns {void}
     */
 
-    this.UserAccountGetBetLimitList = function (CT, GUID, CurrencyType, cb) {
-        EWinHub.invoke("UserAccountGetBetLimitList", CT, GUID, CurrencyType).done(function (o) {
+    UserAccountGetBetLimitList(CT, GUID, CurrencyType, cb) {
+        this.EWinHub.invoke("UserAccountGetBetLimitList", CT, GUID, CurrencyType).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -526,8 +534,8 @@
     *       
     * @returns {void}
     */
-    this.UserAccountSetBetLimit = function (CT, GUID, RoadMapNumber, CurrencyType, GameSetID, BetLimitID, cb) {
-        EWinHub.invoke("UserAccountSetBetLimit", CT, GUID, RoadMapNumber, CurrencyType, GameSetID, BetLimitID).done(function (o) {
+    UserAccountSetBetLimit(CT, GUID, RoadMapNumber, CurrencyType, GameSetID, BetLimitID, cb) {
+        this.EWinHub.invoke("UserAccountSetBetLimit", CT, GUID, RoadMapNumber, CurrencyType, GameSetID, BetLimitID).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -555,8 +563,8 @@
     *       
     * @returns {void}
     */
-    this.UserAccountClearBetLimit = function (CT, GUIDcb) {
-        EWinHub.invoke("UserAccountClearBetLimit", CT, GUID).done(function (o) {
+    UserAccountClearBetLimit(CT, GUIDcb) {
+        this.EWinHub.invoke("UserAccountClearBetLimit", CT, GUID).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -587,8 +595,8 @@
     *       
     * @returns {void}
     */
-    this.RequireEntry = function (CT, GUID, ContactPhoneNumber, GameSetInitChip, Description, cb) {
-        EWinHub.invoke("RequireEntry", CT, GUID, ContactPhoneNumber, GameSetInitChip, Description).done(function (o) {
+    RequireEntry(CT, GUID, ContactPhoneNumber, GameSetInitChip, Description, cb) {
+        this.EWinHub.invoke("RequireEntry", CT, GUID, ContactPhoneNumber, GameSetInitChip, Description).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -618,8 +626,8 @@
     *       
     * @returns {void}
     */
-    this.GetTableInfo = function (CT, GUID, RoadMapNumber, GameSetID, cb) {
-        EWinHub.invoke("GetTableInfo", CT, GUID, RoadMapNumber, GameSetID).done(function (o) {
+    GetTableInfo(CT, GUID, RoadMapNumber, GameSetID, cb) {
+        this.EWinHub.invoke("GetTableInfo", CT, GUID, RoadMapNumber, GameSetID).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -649,8 +657,8 @@
     *       
     * @returns {void}
     */
-    this.LeaveRoadMap = function (CT, GUID, GameSetID, RoadMapNumber, cb) {
-        EWinHub.invoke("LeaveRoadMap", CT, GUID, GameSetID, RoadMapNumber).done(function (o) {
+    LeaveRoadMap(CT, GUID, GameSetID, RoadMapNumber, cb) {
+        this.EWinHub.invoke("LeaveRoadMap", CT, GUID, GameSetID, RoadMapNumber).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -681,8 +689,8 @@
     *       
     * @returns {void}
     */
-    this.EntryRoadMap = function (CT, GUID, GameSetID, CurrencyType, RoadMapNumber, cb) {
-        EWinHub.invoke("EntryRoadMap", CT, GUID, GameSetID, RoadMapNumber, CurrencyType).done(function (o) {
+    EntryRoadMap(CT, GUID, GameSetID, CurrencyType, RoadMapNumber, cb) {
+        this.EWinHub.invoke("EntryRoadMap", CT, GUID, GameSetID, RoadMapNumber, CurrencyType).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -723,8 +731,8 @@
     *       
     * @returns {void}
     */
-    this.AddBetType0 = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
-        EWinHub.invoke("AddBetType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
+    AddBetType0(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
+        this.EWinHub.invoke("AddBetType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -767,8 +775,8 @@
     *       
     * @returns {void}
     */
-    this.AddBetType1 = function (CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
-        EWinHub.invoke("AddBetType1", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
+    AddBetType1(CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
+        this.EWinHub.invoke("AddBetType1", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -809,8 +817,8 @@
     *        
     * @returns {void}
     */
-    this.AddBetType2 = function (CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
-        EWinHub.invoke("AddBetType2", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
+    AddBetType2(CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair, cb) {
+        this.EWinHub.invoke("AddBetType2", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderBanker, OrderPlayer, OrderTie, OrderBankerPair, OrderPlayerPair).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -847,8 +855,8 @@
     *        
     * @returns {void}
     */
-    this.ClearBetType0 = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
-        EWinHub.invoke("ClearBetType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
+    ClearBetType0(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
+        this.EWinHub.invoke("ClearBetType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -883,8 +891,8 @@
     *        
     * @returns {void}
     */
-    this.ClearBetType1 = function (CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
-        EWinHub.invoke("ClearBetType1", CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
+    ClearBetType1(CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
+        this.EWinHub.invoke("ClearBetType1", CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -919,8 +927,8 @@
     *        
     * @returns {void}
     */
-    this.ClearBetType2 = function (CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
-        EWinHub.invoke("ClearBetType2", CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
+    ClearBetType2(CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, cb) {
+        this.EWinHub.invoke("ClearBetType2", CT, GUID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -960,8 +968,8 @@
     *        
     * @returns {void}
     */
-    this.SetBetType0Cmd = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderCmd, cb) {
-        EWinHub.invoke("SetBetType0Cmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderCmd).done(function (o) {
+    SetBetType0Cmd(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderCmd, cb) {
+        this.EWinHub.invoke("SetBetType0Cmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, OrderCmd).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -998,8 +1006,8 @@
     * 
     * @returns {void}
     */
-    this.SetGameSetCmd = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, GameSetCmd, cb) {
-        EWinHub.invoke("SetGameSetCmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, GameSetCmd).done(function (o) {
+    SetGameSetCmd(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, GameSetCmd, cb) {
+        this.EWinHub.invoke("SetGameSetCmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, GameSetCmd).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -1031,8 +1039,8 @@
     *        
     * @returns {void}
     */
-    this.ClearGameSetCmd = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, cb) {
-        EWinHub.invoke("ClearGameSetCmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber).done(function (o) {
+    ClearGameSetCmd(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, cb) {
+        this.EWinHub.invoke("ClearGameSetCmd", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -1069,8 +1077,8 @@
      *       
      * @returns {void}
      */
-    this.AddTipsType0 = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue, cb) {
-        EWinHub.invoke("AddTipsType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue).done(function (o) {
+    AddTipsType0(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue, cb) {
+        this.EWinHub.invoke("AddTipsType0", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -1107,8 +1115,8 @@
      *       
      * @returns {void}
      */
-    this.AddTipsType1 = function (CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue, cb) {
-        EWinHub.invoke("AddTipsType1", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue).done(function (o) {
+    AddTipsType1(CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue, cb) {
+        this.EWinHub.invoke("AddTipsType1", CT, GUID, CurrencyType, RoadMapNumber, ShoeNumber, RoundNumber, OrderSequence, TipsValue).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -1143,8 +1151,8 @@
      *        
      * @returns {void}
      */
-    this.AddChip = function (CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, AddChipValue, cb) {
-        EWinHub.invoke("AddChip", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, AddChipValue).done(function (o) {
+    AddChip(CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, AddChipValue, cb) {
+        this.EWinHub.invoke("AddChip", CT, GUID, GameSetID, RoadMapNumber, ShoeNumber, RoundNumber, AddChipValue).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
@@ -1176,76 +1184,78 @@
      *        
      * @returns {void}
      */
-    this.Query = function (CT, GUID, GameSetID, RoadMapNumber, cb) {
-        EWinHub.invoke("Query", CT, GUID, GameSetID, RoadMapNumber).done(function (o) {
+    Query(CT, GUID, GameSetID, RoadMapNumber, cb) {
+        this.EWinHub.invoke("Query", CT, GUID, GameSetID, RoadMapNumber).done(function (o) {
             if (cb)
                 cb(true, o);
         }).fail(function (err) {
             if (cb)
                 cb(false, err);
         });
-    }
+    };
 
 
     //#endregion
 
-    this.state = function () {
+    state() {
         return currentState;
-    };
+    }
 
-    this.initializeConnection = function () {
-        function connectServer(c) {
-            c.start({ withCredentials: false })
-                .done(function () {
-                    if (onConnected != null)
-                        onConnected();
-                })
-                .fail(function (error) {
-                    if (onDisconnect != null) {
-                        onDisconnect();
+    initializeConnection() {
+        const connectServer = (c, events) => {
+            
+            c.start({ withCredentials: false})
+                .done((function () {
+                    //這邊的this有問題，由於使用箭頭函式，無法使用call or bind，採用傳入解決
+                    if (this.onConnected != null)
+                        this.onConnected();
+                }).bind(events))
+                .fail((function (error) {
+                    if (this.onDisconnect != null) {
+                        this.onDisconnect();
                     }
-                });
+                }).bind(events));
 
-        }
+        };
 
-        var conn = $.hubConnection();
+        //var conn = $.hubConnection();
 
         if (this.EWinUrl != null)
-            conn.url = this.EWinUrl + "/signalr";
+            this.conn.url = this.EWinUrl + "/signalr";
         else
-            conn.url = "/signalr";
+            this.conn.url = "/signalr";
 
-        EWinHub = conn.createHubProxy("EWinGame.Baccarat");
-        EWinHub.on("NotifyMsg", serverMsg);
-        
+        this.EWinHub = this.conn.createHubProxy("EWinGame.Baccarat");
+        this.EWinHub.on("NotifyMsg", this.serverMsg.bind(this));
 
 
-        conn.disconnected(function () {
+
+        this.conn.disconnected(function () {
             setTimeout(function () {
-                connectServer(conn);
+                connectServer(this.conn);
             }, 1000);
         });
 
-        conn.stateChanged(function (state) {
+        this.conn.stateChanged(function (state) {
             //state.oldState
-            currentState = state.newState;
+            this.currentState = state.newState;
         });
 
-        conn.reconnected(function () {
-            if (onReconnected != null)
-                onReconnected();
+        this.conn.reconnected(function () {
+            if (this.onReconnected != null)
+                this.onReconnected();
         });
 
-        conn.reconnecting(function () {
-            if (onReconnecting != null)
-                onReconnecting();
+        this.conn.reconnecting(function () {
+            if (ths.onReconnecting != null)
+                this.oinReconnecting();
         });
 
-        connectServer(conn);
-    };
+        connectServer(this.conn, { onConnected: this.onConnected, onDisconnect: this.onDisconnect });
+    }
 
-    function getJSON(text) {
-        var obj = JSON.parse(text);
+    getJSON(text) {
+        let obj = JSON.parse(text);
 
         if (obj) {
             if (obj.hasOwnProperty('d')) {
@@ -1351,14 +1361,33 @@
 
     //#endregion
 
-    function serverMsg(msg) {
-        var o = getJSON(msg);
+    serverMsg(msg) {
+        let o = this.getJSON(msg);
 
         //o的資料結構，可參考上方
 
-        if (o != null) {        
-            if (onReceive != null)
-                onReceive(o);
+        if (o != null) {
+            if (this.onReceive != null)
+                this.onReceive(o);
         }
     }
-};
+
+
+    static getInstance(CT, eWinUrl) {
+        let Ret;
+
+        if (EWinGameBaccaratClient.instance) {
+            Ret = EWinGameBaccaratClient.instance;
+        } else {
+            if (CT) {
+                this.instance = new EWinGameBaccaratClient(CT, eWinUrl);
+                Ret = EWinGameBaccaratClient.instance;
+            } else {
+                Ret = null;
+            }
+        }
+
+        return Ret;
+    }
+}
+

@@ -12,14 +12,15 @@ import Gamefavorite from 'view/game_favorite';
 import GameView from 'view/game_views';
 import Footer from 'component/footer';
 import GameFooter from 'games_component/game_footer';
-import { EWinGameLobbyClient } from 'signalr/EWinGameLobbyClient';
 import Tips from 'component/tips';
 import VideoBox from 'component/video';
-import cookie from 'react-cookies'
+// import cookie from 'react-cookies';
+import { useCookies } from 'react-cookie';
+import { EWinGameLobbyClient } from 'signalr/bk/EWinGameLobbyClient';
 
 import './index.scss';
 
-const Main = (props) => {
+const Main = () => {
 
   const location = useLocation();
   const isGameView = location.pathname.includes('/games/');
@@ -28,9 +29,9 @@ const Main = (props) => {
 
   const history = useHistory();
 
-
   const EWinUrl = 'https://ewin.dev.mts.idv.tw';
   localStorage.setItem('EWinUrl', EWinUrl)
+
 
 
   // 生成 GUID 
@@ -61,13 +62,10 @@ const Main = (props) => {
 
   // SignalR相關
   const [isLoading, setIsLoading] = useState(true);
-  const [eWinWebClient, setEWinWebClient] = useState(null);
-
-
   const [tiList, setTiList] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-  const [timeoutSeconds, setTimeoutSeconds] = useState([]);
-  const [tabletitle, setTabletitle] = useState([]);
+  const [CT, setCT] = useState('');
+  const [cookies, setCookie] = useCookies(['CT']);
 
   useEffect(() => {
     // 開發時設定每5分鐘打一次api來獲取有效的 CT
@@ -81,7 +79,9 @@ const Main = (props) => {
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         const newCT = xmlDoc.getElementsByTagName('CT')[0].textContent;
 
-        localStorage.setItem('CT', newCT)
+        setCT(newCT);
+        localStorage.setItem('CT', newCT);
+        setCookie('CT', newCT);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -94,34 +94,30 @@ const Main = (props) => {
     return () => clearInterval(intervalId);
   }, [])
 
+
   useEffect(() => {
+    const instance = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
-    const CT = localStorage.getItem('CT');
-
-    if (CT !== '') {
-      // 創建 EWinWebClient 實例
-      const eWinClient = new EWinGameLobbyClient({ EWinUrl, CT, GUID, Echo });
-
+    if (instance !== null) {
 
       // 設置相應的處理函數
-      eWinClient.handleConnected(() => {
+      instance.handleConnected(() => {
         console.log('connected');
 
         // 監聽連線狀態
-        eWinClient.HeartBeat(Echo);
+        instance.HeartBeat(Echo);
 
-        eWinClient.handleReceiveMsg((Msg) => {
+        instance.handleReceiveMsg((Msg) => {
           console.log('處理接收訊息', Msg);
         });
 
-
         // 獲取我的最愛
-        eWinClient.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor')
+        instance.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor');
 
         if (tiList.length === 0 || userInfo === 0) {
 
           // 獲取使用者資料
-          eWinClient.GetUserInfo(CT, GUID, (userInfo) => {
+          instance.GetUserInfo(CT, GUID, (userInfo) => {
             if (userInfo) {
               // console.log('User information:', userInfo);
               setUserInfo(userInfo);
@@ -131,7 +127,7 @@ const Main = (props) => {
           });
 
           // 獲取LOBBY 頁面的 table list相關資料
-          eWinClient.GetTableInfoList(CT, GUID, '', 0, (tabinfo) => {
+          instance.GetTableInfoList(CT, GUID, '', 0, (tabinfo) => {
             if (tabinfo && tabinfo.TableInfoList) {
               setTiList(tabinfo);
               setIsLoading(false)
@@ -146,31 +142,24 @@ const Main = (props) => {
           setIsLoading(false);
         }
 
-
       });
 
-      eWinClient.handleDisconnect(() => {
+      instance.handleDisconnect(() => {
         console.log('EWinHub 連結失效');
       });
 
-
-      eWinClient.handleReconnecting(() => {
+      instance.handleReconnecting(() => {
         console.log('重新連結 EWinHub');
       });
 
-      eWinClient.handleReconnected(() => {
+      instance.handleReconnected(() => {
         console.log('已重新連結 EWinHub');
       });
 
-
       // 初始化連接
-      eWinClient.initializeConnection();
-
-      // 將實例存儲在狀態中
-      setEWinWebClient(eWinClient);
+      instance.initializeConnection();
     }
-  }, [])
-
+  }, [CT, EWinUrl]);
 
 
   return (
