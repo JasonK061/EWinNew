@@ -40,3 +40,4 @@ README.md
 .gitignore
 *.css
 *.css.map
+/.vs
