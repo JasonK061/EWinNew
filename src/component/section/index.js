@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLanguage } from 'hooks';
 import { Link, useHistory } from "react-router-dom";
@@ -23,7 +23,7 @@ const Section = (props) => {
     const [moreScale, setMoreScale] = useState('');
     const tiList = props.tiList || [];
     const userInfo = props.userInfo || [];
-
+    const [strFavo, setstrFavo] = useState('');
 
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
@@ -68,6 +68,15 @@ const Section = (props) => {
         setMoreScale('');
     }
 
+    useEffect(() => {
+        eWinGameLobbyClient.GetUserAccountProperty(CT, generateUUIDv4(), "EWinGame.Favor", function (o) {
+            if (o) {
+                if (o.ResultCode == 0) {
+                    setstrFavo(o.PropertyValue);
+                }
+            }
+        });
+    }, [])
 
     const toggleMute = async (TableNumber) => {
         await props.toggleMute(TableNumber);
@@ -92,7 +101,7 @@ const Section = (props) => {
                         onMouseLeave={mouseleave}
                         className='li-box'
                     >
-                        <span className={`${props.favorites.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
+                        <span className={`${strFavo.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
                         <div className={`games ${i.TableNumber}`}>
                             {/* 獲取ImageType為1的ImageUrl */}
                             {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
@@ -159,7 +168,7 @@ const Section = (props) => {
 
                                 <div className='favorites-box'>
                                     <span onClick={() => toggleMute(i.TableNumber)} className={`video-control ${props.mutes.includes(i.TableNumber) ? 'video-unmute' : 'video-mute'}`} />
-                                    <span onClick={() => handleClick(i.TableNumber)} className={props.favorites.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
+                                    <span onClick={() => handleClick(i.TableNumber)} className={strFavo.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
 
                                 </div>
                             </div>
