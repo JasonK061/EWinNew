@@ -24,10 +24,10 @@ const Section = (props) => {
     const tiList = props.tiList || [];
     const userInfo = props.userInfo || [];
     const [strFavo, setstrFavo] = useState('');
+    const [Favos, setFavos] = useState([]);
 
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
-    const Favos = props.favorites || [];
 
     const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
@@ -73,6 +73,7 @@ const Section = (props) => {
             if (o) {
                 if (o.ResultCode == 0) {
                     setstrFavo(o.PropertyValue);
+                    setFavos(JSON.parse(o.PropertyValue));
                 }
             }
         });

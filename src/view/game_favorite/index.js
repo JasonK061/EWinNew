@@ -28,7 +28,7 @@ function Gamefavorite(props) {
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
     const GUID = generateUUIDv4();
-    const Favos = props.favorites || [];
+    const [Favos, setFavos] = useState([]);
     const { t } = useLanguage();
     const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
@@ -42,6 +42,7 @@ function Gamefavorite(props) {
             if (o) {
                 if (o.ResultCode == 0) {
                     setstrFavo(o.PropertyValue);
+                    setFavos(JSON.parse(o.PropertyValue));
                 }
             }
         });
@@ -58,7 +59,7 @@ function Gamefavorite(props) {
             }
         } else {
             var index = Favos.indexOf(TableNumber);
-
+            debugger
             if (index == -1) {
                 Favos.push(TableNumber);
             }
@@ -101,7 +102,7 @@ function Gamefavorite(props) {
                                     onMouseLeave={mouseleave}
                                     className='li-box'
                                 >
-                                    <span className={`${props.favorites.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
+                                    <span className={`${strFavo.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
                                     <div className={`games ${i.TableNumber}`}>
                                         {/* 獲取ImageType為1的ImageUrl */}
                                         {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
@@ -168,7 +169,7 @@ function Gamefavorite(props) {
 
                                             <div className='favorites-box'>
                                                 <span onClick={() => toggleMute(i.TableNumber)} className={`video-control ${props.mutes.includes(i.TableNumber) ? 'video-unmute' : 'video-mute'}`} />
-                                                <span onClick={() => handleClick(i.TableNumber)} className={props.favorites.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
+                                                <span onClick={() => handleClick(i.TableNumber)} className={strFavo.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
 
                                             </div>
                                         </div>
@@ -194,4 +195,9 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(Gamefavorite);
+const mapDispatchToProps = {
+    toggleFavorite,
+    showMessage
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Gamefavorite);
