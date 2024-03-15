@@ -32,10 +32,6 @@ const Main = () => {
 
   const EWinUrl = 'https://ewin.dev.mts.idv.tw';
   localStorage.setItem('EWinUrl', EWinUrl)
-
-
-
-  // 生成 GUID 
   const GUID = generateUUIDv4();
   const Echo = 'Test_Echo';
 
@@ -100,9 +96,6 @@ const Main = () => {
           console.log('處理接收訊息', Msg);
         });
 
-        // 獲取我的最愛
-        // instance.GetUserAccountProperty(CT, GUID, 'EWinGame.Favor');
-
         if (tiList.length === 0 || userInfo === 0) {
 
           // 獲取使用者資料
@@ -151,13 +144,6 @@ const Main = () => {
 
   return (
     <div className="wrap-box">
-      {/* {!isGameView && (
-        <>
-          <Header userInfo={userInfo} />
-          <VideoBox url={getUrl} />
-          <Footer userInfo={userInfo} />
-        </>
-      )} */}
       {!isGameView
         ? (
           <>
@@ -189,33 +175,6 @@ const Main = () => {
             userInfo={userInfo}
             isLoading={isLoading}
           />
-          {/* <h2>API測試</h2> */}
-          {/* {userInfo && (
-            <div style={{ color: '#fff' }}>
-              <p>Real Name: {userInfo.RealName}</p>
-              {userInfo && userInfo.Company && (
-                <p>Default Area Code: {userInfo.Company.DefaultAreaCode}</p>
-              )}
-              {userInfo && userInfo.Wallet && userInfo.Wallet.map((walletItem, index) => (
-                <div key={index}>
-                  <p>Balance: {walletItem.Balance}</p>
-                  <p>CurrencyName:　{walletItem.CurrencyName}</p>
-                  <p>Symbol: {walletItem.Symbol}</p>
-                </div>
-              ))}
-            </div>
-          )} */}
-          {/* <div>
-            <p>{tiList.ResultCode}</p>
-            <ul>
-              {tiList && tiList.TableInfoList && tiList.TableInfoList.map((i, index) => (
-                <li key={index}>
-                  <p>Table Number: {i.TableNumber}</p>
-                </li>
-              ))}
-            </ul>
-          </div> */}
-
         </Route>
       </Switch>
     </div>
