@@ -51,7 +51,7 @@ const Section = (props) => {
                 Favos.push(TableNumber);
             }
         }
-        
+
         eWinGameLobbyClient.SetUserAccountProperty(CT, generateUUIDv4(), "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
             if (success) {
                 console.log("SetUserAccountProperty", o);

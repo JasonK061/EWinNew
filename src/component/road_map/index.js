@@ -10,13 +10,13 @@ const RoadMap = (props) => {
     // const backendData = [0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1];
     const [backendData, setBackendData] = useState([]);
 
-    useEffect(() => {
-        // 取 TableInfoList 底下的 shoeResults 值
-        if (props.tiList && props.tiList.TableInfoList) {
-            const shoeResults = props.tiList.TableInfoList.map(info => info.ShoeResult);
-            setBackendData(shoeResults);
-        }
-    }, [props.tiList]);
+    // useEffect(() => {
+    //     // 取 TableInfoList 底下的 shoeResults 值
+    //     if (props.tiList && props.tiList.TableInfoList) {
+    //         const shoeResults = props.tiList.TableInfoList.map(info => info.ShoeResult);
+    //         setBackendData(shoeResults);
+    //     }
+    // }, []);
 
     return (
         <div className="table-container">
@@ -34,7 +34,7 @@ const RoadMap = (props) => {
                                             <span className={`circle ${value === 0 ? 'blue' : 'red'}`}></span>
                                         )} */}
                                         {/* 取得的shoeResults */}
-                                        {backendData}
+                                        {/* {backendData} */}
                                     </td>
                                 );
                             })}
