@@ -28,6 +28,17 @@ const Section = (props) => {
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
     const Favos = props.favorites || [];
+    const [shoeResults, setShoeResults] = useState('')
+
+
+    useEffect(() => {
+        // 取 TableInfoList 底下的 shoeResults 值
+        if (props.tiList && props.tiList.TableInfoList) {
+            const shoeResults = props.tiList.TableInfoList.map(info => info.ShoeResult);
+            setShoeResults(shoeResults);
+            console.log('shoeResults', shoeResults)
+        }
+    }, []);
 
     const eWinGameLobbyClient = EWinGameLobbyClient.getInstance(CT, EWinUrl);
 
@@ -107,7 +118,7 @@ const Section = (props) => {
                             {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
                                 <img src={i.ImageList.find(image => image.ImageType === 1).ImageUrl} alt="Table Image" />
                             )}
-                            <RoadMap tiList={tiList} />
+                            <RoadMap shoeResults={shoeResults} />
                         </div>
                         <p className='game-title'>
                             {i.TableNumber}
@@ -146,7 +157,7 @@ const Section = (props) => {
                                     <Link to={`/games/${i.TableNumber}`} onClick={getGameName(i.TableNumber, i.TableTimeoutSecond)}>{t("Global.start_games")}</Link>
                                 </div>
                                 <div className='game-table-wrap'>
-                                    <RoadMap tiList={tiList} />
+                                    <RoadMap shoeResults={shoeResults} />
                                 </div>
                                 <p className='game-dis'>
                                     {i.Status}
