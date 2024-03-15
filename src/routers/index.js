@@ -132,7 +132,6 @@ const Main = () => {
         }
 
       });
-
       instance.handleDisconnect(() => {
         console.log('EWinHub 連結失效');
       });
@@ -144,7 +143,6 @@ const Main = () => {
       instance.handleReconnected(() => {
         console.log('已重新連結 EWinHub');
       });
-
       // 初始化連接
       instance.initializeConnection();
     }

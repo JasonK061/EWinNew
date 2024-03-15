@@ -36,7 +36,7 @@ const Section = (props) => {
         if (props.tiList && props.tiList.TableInfoList) {
             const shoeResults = props.tiList.TableInfoList.map(info => info.ShoeResult);
             setShoeResults(shoeResults);
-            console.log('shoeResults', shoeResults)
+            // console.log('shoeResults', shoeResults)
         }
     }, []);
 

@@ -232,6 +232,7 @@ export class EWinGameLobbyClient {
     }
 
     initializeConnection() {
+
         const connectServer = (c, events) => {
 
             c.start({ withCredentials: false })
@@ -246,7 +247,6 @@ export class EWinGameLobbyClient {
                     }
                 }).bind(events));
         };
-
 
         if (this.EWinUrl != null)
             this.conn.url = this.EWinUrl + "/signalr";
@@ -277,9 +277,8 @@ export class EWinGameLobbyClient {
                 this.onReconnecting();
         });
 
-        // console.log('testCT', this.CT)
-
         connectServer(this.conn, { onConnected: this.onConnected, onDisconnect: this.onDisconnect });
+
     }
 
     getJSON(text) {
