@@ -158,10 +158,7 @@ const Main = () => {
       }
       <Switch>
         <Route path='/Gamefavorite'>
-          <Gamefavorite
-            tiList={tiList}
-            userInfo={userInfo}
-            isLoading={isLoading} />
+          <Gamefavorite />
         </Route>
         <Route path='/games/:gameId'>
           <GameView
