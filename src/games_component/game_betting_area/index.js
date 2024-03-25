@@ -28,6 +28,7 @@ import {
 } from 'store/actions';
 
 import ButtonBox from 'games_component/game_buttons/game_btn_box';
+import GameChipsButton from 'games_component/game_buttons/game_chips_btn';
 
 import './index.scss';
 import './animations.scss';
@@ -547,6 +548,9 @@ const GameBettingArea = (props) => {
                 <div className='right-box'>
 
                 </div>
+            </div>
+            <div className='game-box-straight'>
+                <GameChipsButton />
             </div>
         </div >
     )

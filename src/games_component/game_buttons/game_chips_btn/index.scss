@@ -71,13 +71,13 @@
         height: 58px;
 
         // margin-bottom: 9rem;
-        div {
+        // div {
 
-            position: fixed;
-        }
+        //     position: fixed;
+        // }
 
         div.none {
-            bottom: 6rem;
+            // bottom: 6rem;
 
             .default-click {
 
@@ -347,7 +347,6 @@
         }
 
         div.show {
-            bottom: 1.5rem;
 
             span {
                 // display: none;
@@ -366,7 +365,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     left: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -381,7 +380,7 @@
 
                     100% {
                         left: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 1;
                         transform: rotate(180deg);
                     }
@@ -392,7 +391,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     left: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -407,7 +406,7 @@
 
                     100% {
                         left: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -418,7 +417,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     left: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -433,7 +432,7 @@
 
                     100% {
                         left: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -444,7 +443,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     left: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -459,7 +458,7 @@
 
                     100% {
                         left: 0rem;
-                        bottom: 5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -470,7 +469,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     right: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -485,7 +484,7 @@
 
                     100% {
                         right: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -496,7 +495,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     right: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -511,7 +510,7 @@
 
                     100% {
                         right: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -522,7 +521,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     right: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -537,7 +536,7 @@
 
                     100% {
                         right: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
@@ -548,7 +547,7 @@
                     animation-duration: 1s;
                     animation-timing-function: ease;
                     right: 0.5rem;
-                    bottom: 5.5rem;
+                    bottom: 0;
                     z-index: -1;
                     transform: rotate(180deg);
                 }
@@ -563,7 +562,7 @@
 
                     100% {
                         right: 0.5rem;
-                        bottom: 5.5rem;
+                        bottom: 0;
                         opacity: 0;
                         transform: rotate(180deg);
                     }
