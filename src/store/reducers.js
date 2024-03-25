@@ -4,6 +4,7 @@
 const initialState = {
     favorites: [],
     showMessage: '',
+    message: '',
     mutes: [],
     showMuteMessage: '',
     gameTitle: '',
@@ -56,30 +57,38 @@ export const demoReducer = (state = initDemoState, action) => {
 
 export const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'TOGGLE_FAVORITE':  // 收藏相關
-            const { TableNumber } = action.payload;
-            const isFavorite = state.favorites.includes(TableNumber);
-            const showMessage = isFavorite
-                ? `移除收藏: ${TableNumber}`
-                : `已收藏: ${TableNumber}`;
+        // case 'TOGGLE_FAVORITE':  // 收藏相關
+        //     const { TableNumber } = action.payload;
+        //     const isFavorite = state.favorites.includes(TableNumber);
+        //     const showMessage = isFavorite
+        //         ? `移除收藏: ${TableNumber}`
+        //         : `已收藏: ${TableNumber}`;
 
-            const existingFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-
-            // 這邊寫法每次收藏都會清空再把新的收藏餵進去
-            const newFavorites = isFavorite
-                ? state.favorites.filter((id) => id !== TableNumber)
-                : [...state.favorites, TableNumber];
-
-            // 更新 favorites 狀態並將其寫入 localStorage
-            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        //     const existingFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
 
+        //     // // 這邊寫法每次收藏都會清空再把新的收藏餵進去
+        //     // const newFavorites = isFavorite
+        //     //     ? state.favorites.filter((id) => id !== TableNumber)
+        //     //     : [...state.favorites, TableNumber];
+
+        //     // // 更新 favorites 狀態並將其寫入 localStorage
+        //     // localStorage.setItem('favorites', JSON.stringify(newFavorites));
+
+
+        //     return {
+        //         ...state,
+        //         // favorites: newFavorites,
+        //         showMessage,
+        //     };
+
+        // 顯示tips相關訊息
+
+        case 'SHOW_MESSAGE':
             return {
                 ...state,
-                favorites: newFavorites,
-                showMessage,
-            };
+                message: action.payload.message
+            }
 
         case 'TOGGLE_MUTE': // 靜音相關
             const { TableNumber: muteGameId } = action.payload;

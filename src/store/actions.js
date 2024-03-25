@@ -21,9 +21,9 @@ export const toggleFavorite = (TableNumber) => async (dispatch, getState) => {
 };
 
 // 顯示收藏訊息
-export const showMessage = (showMessage) => ({
+export const showMessage = (message) => ({
     type: 'SHOW_MESSAGE',
-    payload: { showMessage },
+    payload: { message }
 });
 
 // 靜音相關

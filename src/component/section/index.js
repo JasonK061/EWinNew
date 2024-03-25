@@ -28,7 +28,8 @@ const Section = (props) => {
 
     const EWinUrl = localStorage.getItem('EWinUrl');
     const CT = localStorage.getItem('CT');
-    const [shoeResults, setShoeResults] = useState('')
+    const [shoeResults, setShoeResults] = useState('');
+    const GUID = generateUUIDv4();
 
 
     useEffect(() => {
@@ -47,23 +48,28 @@ const Section = (props) => {
     const history = useHistory();
 
     const handleClick = async (TableNumber) => {
-        await props.toggleFavorite(TableNumber);
+        // await props.toggleFavorite(TableNumber);
 
         if (Favos.includes(TableNumber)) {
             var index = Favos.indexOf(TableNumber);
+            const updatedFavos = Favos.filter(num => num !== TableNumber);
+            props.showMessage(`移除收藏 ${TableNumber}`);
+            setFavos(updatedFavos);
+
 
             if (index > -1) {
                 Favos.splice(index, 1);
             }
         } else {
             var index = Favos.indexOf(TableNumber);
-
+            setFavos([...Favos, TableNumber]);
+            props.showMessage(`新增收藏 ${TableNumber}`);
             if (index == -1) {
                 Favos.push(TableNumber);
             }
         }
 
-        eWinGameLobbyClient.SetUserAccountProperty(CT, generateUUIDv4(), "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
+        eWinGameLobbyClient.SetUserAccountProperty(CT, GUID, "EWinGame.Favor", JSON.stringify(Favos), function (success, o) {
             if (success) {
                 console.log("SetUserAccountProperty", o);
             }
@@ -71,7 +77,7 @@ const Section = (props) => {
 
         console.log("Favos", Favos);
 
-        props.showMessage();
+        // props.showMessage();
     };
 
     const mouseleave = () => {
@@ -80,15 +86,21 @@ const Section = (props) => {
     }
 
     useEffect(() => {
-        eWinGameLobbyClient.GetUserAccountProperty(CT, generateUUIDv4(), "EWinGame.Favor", function (o) {
-            if (o) {
-                if (o.ResultCode == 0) {
-                    setstrFavo(o.PropertyValue);
-                    setFavos(JSON.parse(o.PropertyValue));
+        if (eWinGameLobbyClient !== null) {
+            eWinGameLobbyClient.GetUserAccountProperty(CT, GUID, "EWinGame.Favor", function (o) {
+                if (o) {
+                    if (o.ResultCode == 0) {
+                        setstrFavo(o.PropertyValue);
+                        setFavos(JSON.parse(o.PropertyValue));
+                        // props.toggleFavorite(JSON.parse(o.PropertyValue));
+                    }
                 }
-            }
-        });
-    }, [])
+            });
+            eWinGameLobbyClient.handleConnected(() => {
+            })
+        }
+    }, []);
+
 
     const toggleMute = async (TableNumber) => {
         await props.toggleMute(TableNumber);
@@ -99,7 +111,7 @@ const Section = (props) => {
     const getGameName = (TableNumber, TableTimeoutSecond) => () => {
         props.getGameTitle(TableNumber);
         localStorage.setItem('getLocalTableTitle', TableNumber);
-        console.log('TableTimeoutSecond', TableTimeoutSecond);
+        // console.log('TableTimeoutSecond', TableTimeoutSecond);
         // props.setSeconds(TableTimeoutSecond);
         // props.setFirstSeconds(TableTimeoutSecond);
     };
@@ -113,7 +125,7 @@ const Section = (props) => {
                         onMouseLeave={mouseleave}
                         className='li-box'
                     >
-                        <span className={`${strFavo.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
+                        <span className={`${Favos.includes(i.TableNumber) ? 'has-favorites' : ''}`} />
                         <div className={`games ${i.TableNumber}`}>
                             {/* 獲取ImageType為1的ImageUrl */}
                             {i.ImageList && i.ImageList.find(image => image.ImageType === 1) && (
@@ -177,10 +189,9 @@ const Section = (props) => {
                                     <p>{t("Global.similar_ganes")}</p>
                                     <SimilarGames />
                                 </div>
-
                                 <div className='favorites-box'>
                                     <span onClick={() => toggleMute(i.TableNumber)} className={`video-control ${props.mutes.includes(i.TableNumber) ? 'video-unmute' : 'video-mute'}`} />
-                                    <span onClick={() => handleClick(i.TableNumber)} className={strFavo.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
+                                    <span onClick={() => handleClick(i.TableNumber)} className={Favos.includes(i.TableNumber) ? 'remove-to-favorites' : 'add-to-favorites'} />
 
                                 </div>
                             </div>
@@ -269,7 +280,8 @@ const mapStateToProps = (state) => {
         favorites: state.root.favorites || [],
         mutes: state.root.mutes || [],
         seconds: state.root.seconds,
-        firstSeconds: state.root.firstSeconds
+        firstSeconds: state.root.firstSeconds,
+        message: state.root.message
     };
 };
 
