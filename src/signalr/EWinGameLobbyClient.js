@@ -110,6 +110,7 @@ export class EWinGameLobbyClient extends Component {
         });
     }
 
+    
     RemoveUserAccountProperty(CT, GUID, PropertyName, cb) {
         this.EWinHub.invoke("RemoveUserAccountProperty", CT, GUID, PropertyName).done(function (o) {
             if (cb)
