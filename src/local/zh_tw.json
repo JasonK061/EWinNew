@@ -24,7 +24,8 @@
         "tie": "和",
         "type": "類型",
         "win_lose": "上下數",
-        "total_betting": "總投注額"
+        "total_betting": "總投注額",
+        "without_favorite": "目前沒有收藏的項目, 趕快去大廳新增吧"
     },
     "Setting": {
         "title": "遊戲大廳個性化",
