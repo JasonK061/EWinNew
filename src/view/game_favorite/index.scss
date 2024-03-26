@@ -3,6 +3,11 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    // min-height: 100vh;
     padding: 17rem 5rem 5rem;
+
+    .without_favorite {
+        h2 {
+            color: #8D8D9F
+        }
+    }
 }
