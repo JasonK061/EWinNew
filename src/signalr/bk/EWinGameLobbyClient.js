@@ -485,8 +485,9 @@ export class EWinGameLobbyClient {
         });
     }
 
-
     
+
+
     // 獲取首頁相關桌台資訊
         /**
     * 取得桌台資訊
